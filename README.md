@@ -1,6 +1,6 @@
 # TechnoMage
 
-A game made with the Love game engine and scripted entirely in lua. Screenshots comign soon.
+A game made with the Love game engine and scripted entirely in lua. Screenshots coming soon.
 
 ## Resources
  This Builds up quite quick so I'll have it broken up 
@@ -20,3 +20,10 @@ A game made with the Love game engine and scripted entirely in lua. Screenshots 
 * ### Misc
     * [Me right now](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
     * [VS code users](https://stackoverflow.com/questions/52786022/shortcut-for-running-terminal-command-in-vs-code)
+
+## Todo
+* Make sure everything has access to parent object (except Util) and make Game Object / State Manager
+* Make a character
+* Store Mouse Rect in game to save memory and references
+* Make a decision about rendering
+* Art and FX brainstorm
