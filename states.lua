@@ -28,12 +28,14 @@ end
 function State:render()
 end
 
-Button = require('ui').button
-mainMenu = State({
-    bigBtn = Button(20, 80, 60, 20, "hello"),
-    img1 = love.graphics.newImage('assets/payaso.jpg')
-})
-function mainMenu.load()
+ 
+Button = require('ui').Button
+-- This is where we define our Menu Scene
+mainMenu = State()
+
+function mainMenu:load()
+    self.bigBtn = Button(self.owner, 20, 80, 60, 20, "hello")
+    self.img1 = love.graphics.newImage('assets/payaso.jpg')
 end
 function mainMenu:update(dt)
     self.bigBtn:update(dt)
@@ -46,6 +48,44 @@ function mainMenu:render()
     love.graphics.print(string.format("Width: %.1f | Height: %.1f", w, h), 22,22)
     love.graphics.draw(self.img1, 250, 0)
 end
+--
+
+-- This is where we define our main game loop
+main = State()
+
+function main:load()
+    self.player = require('player')
+    -- Prepare physics world with horizontal and vertical gravity
+    love.physics.setMeter(32) --sets the meter size in pixels
+	self.physics = love.physics.newWorld(0, 0)
+    self.level = require('levels').Level1
+    print(self.level.owner)
+    self.level:load(self, self.physics)
+end
+
+function main:update(dt)
+    self.level:update(dt)
+end
+
+function main:render()
+    -- Draw the map and all objects within
+	self.level:render()
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 mainLoop = State()
-return {mainMenu}
+return {mainMenu, main}

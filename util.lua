@@ -37,10 +37,18 @@ function Rect:get(mode)
 end
 
 function Rect:collide(other)
-    if self:get('r') > other:get('l')  and self:get('l') < other:get('r') and self:get('t') < other:get('b') and self:get('b') > other:get('t') then
+    if self:get('r') > other:get('l')  and self:get('l') < other:get('r')
+     and self:get('t') < other:get('b') and self:get('b') > other:get('t') then
         return true
     end
     return false
 end
 
-return {Rect=Rect, inArray=inArray}
+-- Vector2d = setmetatable({}, require('class'))
+-- Rect.__index = Rect
+
+Vector2d = function(x, y)
+    return {x=x, y=y}
+end
+
+return {Rect=Rect, inArray=inArray, Vector2d=Vector2d}

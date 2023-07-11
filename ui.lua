@@ -45,4 +45,4 @@ function Button:draw()
     end
 end
 
-return {button=Button}
+return {Button=Button}
