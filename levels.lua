@@ -28,22 +28,21 @@ function Level:load(owner, world)
 	-- Update callback for Custom Layer
 	function spriteLayer:update(dt)
 		for _, sprite in pairs(self.sprites) do
-			sprite.r = sprite.r + math.rad(90 * dt)
+			sprite:update(dt)
 		end
 	end
 
 	-- Draw callback for Custom Layer
 	function spriteLayer:draw()
 		for _, sprite in pairs(self.sprites) do
-			local x, y = unpack(sprite.pos)
 			local r = sprite.r
-			love.graphics.draw(sprite.image, x, y, r)
+			love.graphics.draw(sprite.image, sprite.pos.x, sprite.pos.y, r)
 		end
 	end
 end
 
 function Level:update(dt)
-    -- self.map:update(dt)
+    self.map:update(dt)
 end
 
 function Level:render()

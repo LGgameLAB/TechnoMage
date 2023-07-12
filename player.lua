@@ -13,5 +13,12 @@ function Player.new(name)
     return self
 end
 
+function Player:load()
+end
+
+function Player:update(dt)
+    self.pos.x = self.pos.x + 90*dt
+end
+
 
 return Player("Bob")

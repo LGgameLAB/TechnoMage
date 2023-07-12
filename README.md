@@ -13,6 +13,7 @@ A game made with the Love game engine and scripted entirely in lua. Screenshots 
     * [SimpleTiled](https://github.com/karai17/Simple-Tiled-Implementation)
     * [Rect Collision](https://github.com/kikito/bump.lua/tree/master)
     * [PolyCollision](https://github.com/vrld/HC)
+    * [Hump Camera](https://www.youtube.com/watch?v=F3zKl70RJlk)
 * ### Code
     * [Dots vs Colons](https://www.tutorialspoint.com/difference-between-and-in-lua-programming)
     * [OOP](https://www.youtube.com/watch?v=g1iKA3lSFms)
