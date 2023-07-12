@@ -7,18 +7,22 @@ A game made with the Love game engine and scripted entirely in lua. Screenshots 
 
 * ### Love
     * [Love wiki](https://love2d.org/wiki/Main_Page)
+    * [Noob Camera tutorial](https://www.youtube.com/watch?v=F3zKl70RJlk)
 * ### Libraries
     * [Loads of Love Libraries](https://github.com/love2d-community/awesome-love2d#helper-libraries)
-    * [Dialove](http://www.google.fr/)
+    * [Anim8](https://github.com/kikito/anim8/tree/master)
+    * [Dialove](https://github.com/tavuntu/dialove)
     * [SimpleTiled](https://github.com/karai17/Simple-Tiled-Implementation)
     * [Rect Collision](https://github.com/kikito/bump.lua/tree/master)
     * [PolyCollision](https://github.com/vrld/HC)
-    * [Hump Camera](https://www.youtube.com/watch?v=F3zKl70RJlk)
+    * [Hump](https://github.com/vrld/hump/tree/master)
+    * [Hump Docs](https://hump.readthedocs.io/en/latest/)
 * ### Code
     * [Dots vs Colons](https://www.tutorialspoint.com/difference-between-and-in-lua-programming)
     * [OOP](https://www.youtube.com/watch?v=g1iKA3lSFms)
     * [Game states](http://gamedevgeek.com/tutorials/managing-game-states-in-c/)
 * ### Misc
+    * [Pixel Art Palettes](https://lospec.com/palette-list)
     * [Me right now](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
     * [VS code users](https://stackoverflow.com/questions/52786022/shortcut-for-running-terminal-command-in-vs-code)
 

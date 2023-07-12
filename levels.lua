@@ -1,5 +1,5 @@
 -- imports
-sti = require 'libs/sti/sti'
+sti = require 'libs/sti'
 
 Level = setmetatable({}, require('class'))
 Level.__index = Level
