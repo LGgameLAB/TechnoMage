@@ -3,6 +3,9 @@
  <editorsettings>
   <export target="test2.lua" format="lua"/>
  </editorsettings>
+ <properties>
+  <property name="collidable" type="bool" value="true"/>
+ </properties>
  <tileset firstgid="1" name="space-stuff" tilewidth="32" tileheight="32" tilecount="4" columns="2">
   <image source="smaller rocks 2x2.png" width="64" height="64"/>
  </tileset>
@@ -83,7 +86,7 @@
  <layer id="2" name="objects" width="48" height="64">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 5,0,0,0,0,0,2,0,3758096385,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,5,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -149,13 +152,27 @@
 </data>
  </layer>
  <objectgroup id="3" name="colliders">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
   <object id="1" name="Rock" x="0" y="72" width="64" height="48"/>
-  <object id="2" name="Rock" x="64" y="8" width="64" height="48"/>
+  <object id="2" name="Rock" x="152" y="0" width="56" height="40">
+   <properties>
+    <property name="dynamic" type="bool" value="true"/>
+    <property name="restitution" type="float" value="1"/>
+   </properties>
+  </object>
   <object id="3" name="Rock" x="160" y="112">
+   <properties>
+    <property name="restitution" type="float" value="0"/>
+   </properties>
    <polygon points="0,0 16,0 32,-8 56,0 56,16 64,16 48,40 32,40 24,24 8,24 0,16"/>
   </object>
  </objectgroup>
- <objectgroup id="4" name="sprites">
+ <objectgroup id="4" name="sprites" visible="0" locked="1">
+  <properties>
+   <property name="collidable" type="bool" value="true"/>
+  </properties>
   <object id="6" name="Player" x="16" y="16">
    <point/>
   </object>

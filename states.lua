@@ -55,15 +55,17 @@ main = State()
 
 function main:load()
     self.player = require('player')
+    
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
-	self.physics = love.physics.newWorld(0, 0)
+	self.physics = love.physics.newWorld(0, 2.01)
     self.level = require('levels').Level1
-    print(self.level.owner)
     self.level:load(self, self.physics)
+    self.player:load(self.physics)
 end
 
 function main:update(dt)
+    self.physics:update(dt)
     self.level:update(dt)
 end
 

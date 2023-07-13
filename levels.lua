@@ -16,6 +16,8 @@ function Level:load(owner, world)
     self.map = sti(self.filepath, { "box2d" })
     self.map:box2d_init(world)
 
+	function self.map:drawObjectLayer()
+	end
 	-- Creates a custom layer with an index within the layer stack
 	self.map:addCustomLayer("Sprite Layer", 3)
 
@@ -35,8 +37,7 @@ function Level:load(owner, world)
 	-- Draw callback for Custom Layer
 	function spriteLayer:draw()
 		for _, sprite in pairs(self.sprites) do
-			local r = sprite.r
-			love.graphics.draw(sprite.image, sprite.pos.x, sprite.pos.y, r)
+			sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
 		end
 	end
 end
@@ -46,11 +47,15 @@ function Level:update(dt)
 end
 
 function Level:render()
-    love.graphics.setColor(1, 1, 1)
-    self.map:draw(0, 0, 2, 2)
-	-- -- Draw Collision Map (useful for debugging)
-	-- love.graphics.setColor(1, 0, 0)
-	-- self.map:box2d_draw()
+	-- for _, layer in pairs(self.map.layers) do
+	-- 	-- if getmetatable(layer) ~= sti.ObjectLayer then
+	-- 	-- 	self.map:drawLayer(layer)
+	-- 	-- end
+	-- 	self.map:drawTileLayer(layer)
+	-- end
+    self.map:draw(0, 0, 1, 1)
+	-- Draw Collision Map (useful for debugging)
+	self.map:box2d_draw(0, 0, 1, 1)
 end
 
 return {Level1 = Level('me', 'assets/maps/test2.lua')}

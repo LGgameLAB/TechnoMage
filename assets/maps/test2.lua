@@ -11,7 +11,9 @@ return {
   tileheight = 32,
   nextlayerid = 5,
   nextobjectid = 8,
-  properties = {},
+  properties = {
+    ["collidable"] = true
+  },
   tilesets = {
     {
       name = "space-stuff",
@@ -180,7 +182,7 @@ return {
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         5, 0, 0, 0, 0, 0, 2, 0, 3758096385, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 5, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -257,7 +259,9 @@ return {
       offsety = 0,
       parallaxx = 1,
       parallaxy = 1,
-      properties = {},
+      properties = {
+        ["collidable"] = true
+      },
       objects = {
         {
           id = 1,
@@ -277,13 +281,16 @@ return {
           name = "Rock",
           class = "",
           shape = "rectangle",
-          x = 64,
-          y = 8,
-          width = 64,
-          height = 48,
+          x = 152,
+          y = 0,
+          width = 56,
+          height = 40,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["dynamic"] = true,
+            ["restitution"] = 1
+          }
         },
         {
           id = 3,
@@ -309,7 +316,9 @@ return {
             { x = 8, y = 24 },
             { x = 0, y = 16 }
           },
-          properties = {}
+          properties = {
+            ["restitution"] = 1
+          }
         }
       }
     },
@@ -319,13 +328,15 @@ return {
       id = 4,
       name = "sprites",
       class = "",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
       parallaxx = 1,
       parallaxy = 1,
-      properties = {},
+      properties = {
+        ["collidable"] = true
+      },
       objects = {
         {
           id = 6,
