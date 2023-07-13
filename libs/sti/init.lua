@@ -897,7 +897,7 @@ function Map:draw(tx, ty, sx, sy)
 	-- Map is translated to correct position so the right section is drawn
 	lg.push()
 	lg.origin()
-	lg.translate(math.floor(tx or 0), math.floor(ty or 0))
+	-- lg.translate(math.floor(tx or 0), math.floor(ty or 0))
 
 	for _, layer in ipairs(self.layers) do
 		if layer.visible and layer.opacity > 0 then
@@ -910,7 +910,7 @@ function Map:draw(tx, ty, sx, sy)
 	-- Draw canvas at 0,0; this fixes scissoring issues
 	-- Map is scaled to correct scale so the right section is shown
 	lg.push()
-	lg.origin()
+	-- lg.origin()
 	lg.scale(sx or 1, sy or sx or 1)
 
 	lg.setCanvas(current_canvas)
@@ -923,7 +923,7 @@ end
 -- @param layer The Layer to draw
 function Map.drawLayer(_, layer)
 	local r,g,b,a = lg.getColor()
-	lg.setColor(r, g, b, a * layer.opacity)
+	lg.setColor(1, 1, 1, a * layer.opacity)
 	layer:draw()
 	lg.setColor(r,g,b,a)
 end

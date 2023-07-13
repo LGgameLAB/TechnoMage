@@ -58,20 +58,28 @@ function main:load()
     
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
-	self.physics = love.physics.newWorld(0, 2.01)
+	self.physics = love.physics.newWorld(0, 0)
     self.level = require('levels').Level1
     self.level:load(self, self.physics)
     self.player:load(self.physics)
+
+    local camera = require('libs/util/camera')
+    self.cam = camera(100,100, 2)
 end
 
 function main:update(dt)
     self.physics:update(dt)
     self.level:update(dt)
+    self.cam:lookAt(self.player.pos:unpack())
 end
 
 function main:render()
     -- Draw the map and all objects within
+    self.cam:attach()
+    
 	self.level:render()
+    self.player:draw()
+    self.cam:detach()
 
 end
 

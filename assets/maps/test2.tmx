@@ -164,7 +164,7 @@
   </object>
   <object id="3" name="Rock" x="160" y="112">
    <properties>
-    <property name="restitution" type="float" value="0"/>
+    <property name="restitution" type="float" value="1"/>
    </properties>
    <polygon points="0,0 16,0 32,-8 56,0 56,16 64,16 48,40 32,40 24,24 8,24 0,16"/>
   </object>

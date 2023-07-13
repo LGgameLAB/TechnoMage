@@ -36,9 +36,9 @@ function Level:load(owner, world)
 
 	-- Draw callback for Custom Layer
 	function spriteLayer:draw()
-		for _, sprite in pairs(self.sprites) do
-			sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
-		end
+		-- for _, sprite in pairs(self.sprites) do
+		-- 	sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
+		-- end
 	end
 end
 
@@ -49,13 +49,11 @@ end
 function Level:render()
 	-- for _, layer in pairs(self.map.layers) do
 	-- 	-- if getmetatable(layer) ~= sti.ObjectLayer then
-	-- 	-- 	self.map:drawLayer(layer)
-	-- 	-- end
-	-- 	self.map:drawTileLayer(layer)
+	-- 	self.map:drawLayer(layer)
 	-- end
-    self.map:draw(0, 0, 1, 1)
+    self.map:draw(0, 0)
 	-- Draw Collision Map (useful for debugging)
-	self.map:box2d_draw(0, 0, 1, 1)
+	self.map:box2d_draw(0, 0)
 end
 
 return {Level1 = Level('me', 'assets/maps/test2.lua')}

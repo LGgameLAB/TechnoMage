@@ -3,10 +3,12 @@ shaders = require('libs/shaders')
 
 
 function love.load()
+    love.graphics.setBackgroundColor(0,0,0)
+    love.graphics.setDefaultFilter("nearest", "nearest")
     states = require('states')
     current = states[2]
     current:activate()
-    love.graphics.setBackgroundColor(1,1,1)
+    
     shaders:init()
     if shaders then
         shaders:refresh()
