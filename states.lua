@@ -23,6 +23,9 @@ function State:runEvents()
     if love.keyboard.isDown("escape") then
         love.event.push("quit")
     end
+    if love.keyboard.isDown("f11") then
+        love.window.setFullscreen(not love.window.getFullscreen())
+    end
 end
 
 function State:render()
@@ -38,6 +41,7 @@ function mainMenu:load()
     self.img1 = love.graphics.newImage('assets/payaso.jpg')
 end
 function mainMenu:update(dt)
+    self:runEvents()
     self.bigBtn:update(dt)
 end
 function mainMenu:render()
@@ -61,16 +65,18 @@ function main:load()
 	self.physics = love.physics.newWorld(0, 0)
     self.level = require('levels').Level1
     self.level:load(self, self.physics)
-    self.player:load(self.physics)
+    self.player:load(self, self.physics)
 
     local camera = require('libs/util/camera')
-    self.cam = camera(100,100, 2)
+    self.cam = camera(100,100, 1)
+    self.cam.smoother = camera.smooth.damped(10)
 end
 
 function main:update(dt)
+    self:runEvents()
     self.physics:update(dt)
     self.level:update(dt)
-    self.cam:lookAt(self.player.pos:unpack())
+    self.cam:lookAt(self.player:getCenter():unpack())
 end
 
 function main:render()
