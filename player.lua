@@ -9,7 +9,7 @@ Player.__index = Player
 function Player.new(name)
     local self = setmetatable({}, Player)
     self.pos = Vec(0, 0)
-    self.speed = 19000
+    self.speed = 69000
     self.turnSpeed = 90000
     self.r = 0
     self.name = name

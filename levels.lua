@@ -46,7 +46,7 @@ function Level:update(dt)
     self.map:update(dt)
 end
 
-function Level:render()
+function Level:draw()
 	-- for _, layer in pairs(self.map.layers) do
 	-- 	-- if getmetatable(layer) ~= sti.ObjectLayer then
 	-- 	self.map:drawLayer(layer)

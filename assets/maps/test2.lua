@@ -9,8 +9,8 @@ return {
   height = 64,
   tilewidth = 32,
   tileheight = 32,
-  nextlayerid = 5,
-  nextobjectid = 8,
+  nextlayerid = 6,
+  nextobjectid = 12,
   properties = {
     ["collidable"] = true
   },
@@ -88,7 +88,7 @@ return {
       id = 1,
       name = "Background",
       class = "",
-      visible = true,
+      visible = false,
       opacity = 1,
       offsetx = 0,
       offsety = 0,
@@ -318,6 +318,66 @@ return {
           },
           properties = {
             ["restitution"] = 1
+          }
+        },
+        {
+          id = 8,
+          name = "",
+          class = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 8,
+          height = 2048,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 9,
+          name = "",
+          class = "",
+          shape = "rectangle",
+          x = 0,
+          y = 2032,
+          width = 1535.33,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 10,
+          name = "",
+          class = "",
+          shape = "rectangle",
+          x = 1512,
+          y = 0,
+          width = 24,
+          height = 2048,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true
+          }
+        },
+        {
+          id = 11,
+          name = "",
+          class = "",
+          shape = "rectangle",
+          x = 0,
+          y = 0,
+          width = 1536,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["collidable"] = true
           }
         }
       }

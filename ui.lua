@@ -9,7 +9,7 @@ Button = setmetatable({
 }, require('class'))
 Button.__index = Button
 
-function Button.new(owner, x, y, w, h, text)
+function Button.new(owner, x, y, w, h, text, callback)
     local self = setmetatable({}, Button)
     self.owner = owner
     self.rect = Util.Rect(x, y, w, h)
@@ -18,6 +18,8 @@ function Button.new(owner, x, y, w, h, text)
     else
         self.text = text
     end
+
+    self.callback = callback or function() return nil end
     -- print(love.mouse.setRelativeMode( ))
     return self
 end
@@ -25,7 +27,10 @@ end
 function Button:update(dt)
     local x, y = love.mouse.getPosition()
     self.hovered = Util.Rect(x, y, 1, 1):collide(self.rect)
-    print(self.hovered)
+    if self.hovered and love.mouse.isDown(1) then
+        print('not ')
+        self.callback()
+    end
 end
 
 function Button:draw()
