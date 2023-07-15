@@ -11,7 +11,7 @@ function Player.new(name)
     local self = setmetatable({}, Player)
     self.pos = Vec(0, 0)
     self.speed = 69000
-    self.turnSpeed = 90000
+    self.turnSpeed = 290000
     self.r = 0
     self.canShoot = true
     self.shootDelay = 0.4
@@ -33,7 +33,7 @@ function Player:load(owner, world)
     -- self.body:setFixedRotation(true)
     self.body:setMass(1000)
     self.body:setLinearDamping( 0.2 )
-    self.body:setAngularDamping( 0.7 )
+    self.body:setAngularDamping( 0.9 )
 
     self.shape = love.physics.newPolygonShape(0,0, w, 0, w, h, 0, h)
     self.fixture = love.physics.newFixture( self.body, self.shape)

@@ -54,7 +54,7 @@ function Level:draw()
 	end
     -- self.map:draw(0, 0)
 	-- Draw Collision Map (useful for debugging)
-	self.map:box2d_draw(0, 0)
+	-- self.map:box2d_draw(0, 0)
 end
 
 return {Level1 = Level('me', 'assets/maps/test2.lua')}
