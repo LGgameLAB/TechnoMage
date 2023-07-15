@@ -1,8 +1,10 @@
 return 
 {
     binds = {
-        rocket = 'space',
+        rocket = 'w',
+        reverseRocket = 's',
         rotR = 'd',
-        rotL = 'a'
+        rotL = 'a',
+        shoot = 'space'
     }
 }

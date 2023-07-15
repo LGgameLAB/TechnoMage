@@ -13,13 +13,15 @@ end
 function Game:load()
     self.shaders = require('libs/shaders')
     self.shaders:init()
+    self.timer = require('libs/util/timer')
+
     if self.shaders then
         self.shaders:refresh()
     end
 
     self.states = require('states')
     self.state = nil
-    self:switchStates(self.states.mainMenu)
+    self:switchStates(self.states.main)--Menu)
 
     self:loadSave()
 end
@@ -45,6 +47,7 @@ function Game:draw()
 end
 
 function Game:update(dt)
+    self.timer.update(dt)
     self.state:update(dt)
 end
 

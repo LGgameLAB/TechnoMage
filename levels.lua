@@ -22,23 +22,23 @@ function Level:load(owner, world)
 	self.map:addCustomLayer("Sprite Layer", 3)
 
 	-- Add data to Custom Layer
-	local spriteLayer = self.map.layers["Sprite Layer"]
-	spriteLayer.sprites = {
+	self.spriteLayer = self.map.layers["Sprite Layer"]
+	self.spriteLayer.sprites = {
 		owner.player
 	}
 
 	-- Update callback for Custom Layer
-	function spriteLayer:update(dt)
+	function self.spriteLayer:update(dt)
 		for _, sprite in pairs(self.sprites) do
 			sprite:update(dt)
 		end
 	end
 
 	-- Draw callback for Custom Layer
-	function spriteLayer:draw()
-		-- for _, sprite in pairs(self.sprites) do
-		-- 	sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
-		-- end
+	function self.spriteLayer:draw()
+		for _, sprite in pairs(self.sprites) do
+			sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
+		end
 	end
 end
 
@@ -47,11 +47,12 @@ function Level:update(dt)
 end
 
 function Level:draw()
-	-- for _, layer in pairs(self.map.layers) do
-	-- 	-- if getmetatable(layer) ~= sti.ObjectLayer then
-	-- 	self.map:drawLayer(layer)
-	-- end
-    self.map:draw(0, 0)
+	for _, layer in pairs(self.map.layers) do
+		if layer.type ~= 'objectlayer' then
+			self.map:drawLayer(layer)
+		end
+	end
+    -- self.map:draw(0, 0)
 	-- Draw Collision Map (useful for debugging)
 	self.map:box2d_draw(0, 0)
 end

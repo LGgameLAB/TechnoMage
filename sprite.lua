@@ -19,3 +19,5 @@ end
 
 function Sprite:update()
 end
+
+return Sprite

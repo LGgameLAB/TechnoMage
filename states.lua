@@ -8,6 +8,9 @@ function State.new(tbl)
     self.owner = owner
     self.active = false
     self.paused = true
+
+    self.canToggleFull = true
+
     return self
 end
 
@@ -43,8 +46,11 @@ function State:runEvents()
     if love.keyboard.isDown("escape") then
         love.event.push("quit")
     end
-    if love.keyboard.isDown("f11") then
+
+    if love.keyboard.isDown("f11") and self.canToggleFull then
         love.window.setFullscreen(not love.window.getFullscreen())
+        self.canToggleFull = false
+        game.timer.after(0.5, function()self.canToggleFull = true end)
     end
 end
 
@@ -92,7 +98,6 @@ function main:load(owner)
     local camera = require('libs/util/camera')
     self.cam = camera(0,0, 1)
     self.cam.smoother = camera.smooth.damped(2)--camera.smooth.linear(100)
-    self.cam:lockX(12)
 end
 
 function main:update(dt)
@@ -101,6 +106,12 @@ function main:update(dt)
     self.level:update(dt)
     -- self.cam:lookAt(self.player:getCenter():unpack())
     self.cam:lockPosition(self.player:getCenter():unpack())
+    if love.window.getFullscreen() then
+        self.cam.scale = 2
+    else
+        self.cam.scale = 1.5
+    end
+     
 end
 
 function main:draw()
@@ -111,12 +122,6 @@ function main:draw()
     self.cam:detach()
 
 end
-
-
-
-
-
-
 
 
 

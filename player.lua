@@ -1,4 +1,5 @@
 Vec = require('libs/util/vector')
+Bullet = require('bullets')
 anim8 = require('libs/anim8')
 binds = require('config').binds
 
@@ -12,6 +13,8 @@ function Player.new(name)
     self.speed = 69000
     self.turnSpeed = 90000
     self.r = 0
+    self.canShoot = true
+    self.shootDelay = 0.4
     self.name = name
 
     return self
@@ -50,6 +53,7 @@ end
 
 function Player:update(dt)
     self:move(dt)
+    self:shoot()
     self.pos = Vec(self.body:getPosition())-- + Vec(self.w*0.25, self.h*0.5)
     
     self.animations:update(dt)
@@ -69,6 +73,25 @@ function Player:move(dt)
         impulse = Vec(self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
         self.body:applyForce(impulse.x*dt, impulse.y*dt)
+    end
+    if love.keyboard.isDown( binds.reverseRocket ) then
+        impulse = Vec(-self.speed, 0)
+        impulse = impulse:rotated(self.body:getAngle())
+        self.body:applyForce(impulse.x*dt, impulse.y*dt)
+    end
+end
+
+function Player:shoot()
+    if self.canShoot and love.keyboard.isDown( binds.shoot ) then
+        local diff = Vec(self.w*0.75, 0)
+        diff:rotateInplace(self.body:getAngle())
+        local new = diff + self:getCenter()
+        x, y = new:unpack() 
+        Bullet(self, x, y, self.body:getAngle())
+        self.canShoot = false
+        game.timer.after(self.shootDelay, function ()
+            self.canShoot = true
+        end)
     end
 end
 

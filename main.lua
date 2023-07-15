@@ -2,6 +2,7 @@ game = require('game')()
 
 function love.load()
     love.debug = false
+    love.graphics.setDefaultFilter('nearest', 'nearest')
     game:load()
 end
 
