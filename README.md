@@ -1,6 +1,6 @@
-# TechnoMage
+# The Depths of Cygnus
 
-A game made with the Love game engine and scripted entirely in lua. Screenshots coming soon.
+A game made with the Love game engine and scripted in lua. Screenshots coming soon.
 
 ## Resources
  This Builds up quite quick so I'll have it broken up 
@@ -21,6 +21,7 @@ A game made with the Love game engine and scripted entirely in lua. Screenshots 
     * [Dots vs Colons](https://www.tutorialspoint.com/difference-between-and-in-lua-programming)
     * [OOP](https://www.youtube.com/watch?v=g1iKA3lSFms)
     * [Game states](http://gamedevgeek.com/tutorials/managing-game-states-in-c/)
+    * [iparis vs pairs](https://www.tutorialspoint.com/what-is-the-difference-between-pairs-vs-ipairs-in-lua#:~:text=While%20both%20of%20them%20have,ipairs()%20function%20surely%20does.)
 * ### Misc
     * [Pixel Art Palettes](https://lospec.com/palette-list)
     * [Me right now](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)

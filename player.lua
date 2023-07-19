@@ -1,23 +1,18 @@
 Vec = require('libs/util/vector')
 Bullet = require('bullets')
 anim8 = require('libs/anim8')
-binds = require('config').binds
+require('settings')
 
-Player = setmetatable({}, require('class'))
-Player.__index = Player
+Player = class()
 
-
-function Player.new(name)
-    local self = setmetatable({}, Player)
+function Player:init(name)
     self.pos = Vec(0, 0)
     self.speed = 69000
     self.turnSpeed = 290000
     self.r = 0
     self.canShoot = true
-    self.shootDelay = 0.4
+    self.shootDelay = 0.2
     self.name = name
-
-    return self
 end
 
 function Player:load(owner, world)
@@ -47,8 +42,17 @@ end
 function Player:draw()
     -- love.graphics.draw(self.src, self.pos.x, self.pos.y, 0, 2, nil)
     -- love.graphics.draw(self.src, 50, 50, 0, 2)
-    self.animations:draw(self.src, self.pos.x, self.pos.y, self.body:getAngle(), nil, nil)--, self.w*0.25, self.h*0.5)
-    love.graphics.points( self.body:getPosition() )
+    local ang = self.body:getAngle() % (math.pi*2)
+    local scaley = 1
+    local oy = 0
+    if ang > math.pi*0.5 and ang < math.pi*1.5 then
+        scaley = -1
+        oy = self.w
+    end
+    self.animations:draw(self.src, self.pos.x, self.pos.y, ang, 1, scaley, 0, oy)--, self.w*0.25, self.h*0.5)
+    if DEBUG then
+        love.graphics.points( self.body:getPosition() )
+    end
 end
 
 function Player:update(dt)

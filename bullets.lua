@@ -1,11 +1,11 @@
-Bullet = setmetatable({
+class = require('class')
+Bullet = class()
+Bullet:set({
     image = love.graphics.newImage('assets/objects/bullet.png'),
     vel = 2500
-}, require('class'))
-Bullet.__index = Bullet
+})
 
-function Bullet.new(owner, x, y, ang)
-    self = setmetatable({}, Bullet)
+function Bullet:init(owner, x, y, ang)
     -- This is one of the few objects where I will load the data on initiation
     self.owner = owner
     table.insert(self.owner.owner.level.spriteLayer.sprites, self)
@@ -16,8 +16,6 @@ function Bullet.new(owner, x, y, ang)
     self.angle = ang
     local dir = Vec(self.vel, 0):rotated(ang)
     self.body:applyForce(dir.x, dir.y)
-
-    return self
 end
 
 function Bullet:draw()

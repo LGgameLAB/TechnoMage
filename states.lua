@@ -1,17 +1,13 @@
-State = setmetatable({
-    color = {0, 0, 0}
-}, require('class'))
-State.__index = State
+class = require('class')
+State = class()
 
-function State.new(tbl)
-    local self = setmetatable(tbl or {}, State)
+function State:init(tbl)
     self.owner = owner
     self.active = false
     self.paused = true
 
     self.canToggleFull = true
 
-    return self
 end
 
 function State:load()

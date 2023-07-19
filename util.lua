@@ -1,21 +1,18 @@
+class = require('class')
 -- These only work with strings
 function inArray(v, t)
     for i=1,#t do
       if v == t[i] then return true end
     end
   end
+Rect = class()
 
-Rect = setmetatable({}, require('class'))
-Rect.__index = Rect
-
-function Rect.new(x, y, w, h)
-    local self = setmetatable({}, Rect)
+function Rect:init(x, y, w, h)
     self.x = x
     self.y = y
     self.width, self.w = w, w
     self.height, self.h = h, h
     self.pos = {x = x, y = y}
-    return self
 end
 
 function Rect:get(mode)

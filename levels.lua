@@ -1,14 +1,15 @@
 -- imports
+require('settings')
+
 sti = require 'libs/sti'
 
-Level = setmetatable({}, require('class'))
-Level.__index = Level
+class = require('class')
+Level = class()
+Level:set({color = {1,1,1}})
 
-function Level.new(owner, filepath)
-    self = setmetatable({}, Level)
+function Level:init(owner, filepath)
     self.owner = owner
     self.filepath = filepath
-    return self
 end
 
 -- Require Physics world to be passed
@@ -47,14 +48,17 @@ function Level:update(dt)
 end
 
 function Level:draw()
-	for _, layer in pairs(self.map.layers) do
-		if layer.type ~= 'objectlayer' then
+	for _, layer in ipairs(self.map.layers) do
+		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
 			self.map:drawLayer(layer)
 		end
 	end
+	-- love.event.push("quit")
     -- self.map:draw(0, 0)
-	-- Draw Collision Map (useful for debugging)
-	-- self.map:box2d_draw(0, 0)
+	-- Draw Collision Map (useful for DEBUGging)
+	if DEBUG then
+		self.map:box2d_draw(0, 0)
+	end
 end
 
 return {Level1 = Level('me', 'assets/maps/test2.lua')}

@@ -1,13 +1,14 @@
 Util = require('util')
+class = require('class')
 
-Button = setmetatable({
+Button = class()
+Button:set({
     colors = {
         default = {0.1, 0.1, 0.5},
         hover={0.9, 0.9, 0.9}
     },
     hovered = false
-}, require('class'))
-Button.__index = Button
+})
 
 function Button.new(owner, x, y, w, h, text, callback)
     local self = setmetatable({}, Button)
