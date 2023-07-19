@@ -124,6 +124,15 @@ function camera:detach()
 	love.graphics.setScissor(self._sx,self._sy,self._sw,self._sh)
 end
 
+function camera:setDepth(d)
+	local x, y = -(self.x)*(d-1), -(self.y)*(d-1)
+	love.graphics.translate(x, y)
+end
+function camera:reverseDepth(d)
+	local x, y = (self.x)*(d-1), (self.y)*(d-1)
+
+	love.graphics.translate(x, y)
+end
 function camera:draw(...)
 	local x,y,w,h,noclip,func
 	local nargs = select("#", ...)

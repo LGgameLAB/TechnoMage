@@ -24,7 +24,7 @@ function Player:load(owner, world)
     local g = anim8.newGrid(32, 32, self.srcSize.x, self.srcSize.y)
     self.animations =  anim8.newAnimation(g('1-2',1), 0.1)
 
-    self.body = love.physics.newBody(world, 10, 10, "dynamic")
+    self.body = love.physics.newBody(world, self.pos.x, self.pos.y, "dynamic")
     -- self.body:setFixedRotation(true)
     self.body:setMass(1000)
     self.body:setLinearDamping( 0.2 )
@@ -103,6 +103,14 @@ function Player:getCenter()
     diff = Vec(self.w*0.5, self.h*0.5)
     diff:rotateInplace(self.body:getAngle())
     return self.pos + diff
+end
+
+function Player:setPos(x, y)
+    if self.body then
+        self.body:setPosition( x, y )
+    else
+        self.pos = Vec(x, y)
+    end
 end
 
 return Player("Bob")

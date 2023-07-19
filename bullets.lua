@@ -1,5 +1,4 @@
-class = require('class')
-Bullet = class()
+Bullet = require('sprite'):extend()
 Bullet:set({
     image = love.graphics.newImage('assets/objects/bullet.png'),
     vel = 2500
@@ -8,6 +7,7 @@ Bullet:set({
 function Bullet:init(owner, x, y, ang)
     -- This is one of the few objects where I will load the data on initiation
     self.owner = owner
+    self.super().load(self, {'Sprite Layer'})
     table.insert(self.owner.owner.level.spriteLayer.sprites, self)
     self.body = love.physics.newBody(game.state.physics, x, y, 'dynamic')
     self.body:setMass(4)

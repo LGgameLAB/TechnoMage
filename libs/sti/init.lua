@@ -753,6 +753,42 @@ end
 -- @param name Name of Custom Layer
 -- @param index Draw order within Layer stack
 -- @return table Custom Layer
+function Map:addSpriteLayer(name, layer)
+	index = index or #self.layers + 1
+	local layer = {
+      type       = "customlayer",
+      name       = name,
+      visible    = true,
+      opacity    = 1,
+      properties = {},
+	  sprites = {},
+    }
+
+	function layer.add(l, ...)
+		for _, v in ipairs({...}) do
+			table.insert(l.sprites, v)
+		end
+	end
+	-- Draw callback for Sprite Layer
+	function layer.draw(l)
+		for _, sprite in ipairs(l.sprites) do
+			sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
+		end
+	end
+
+	-- Update callback for Sprite Layer
+	function layer.update(l, dt)
+		for _, sprite in ipairs(l.sprites) do
+			sprite:update(dt)
+		end
+	end
+
+	table.insert(self.layers, index, layer)
+	self.layers[name] = self.layers[index]
+
+	return layer
+end
+
 function Map:addCustomLayer(name, index)
 	index = index or #self.layers + 1
 	local layer = {

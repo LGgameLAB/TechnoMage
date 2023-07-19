@@ -386,7 +386,7 @@ return {
       type = "objectgroup",
       draworder = "topdown",
       id = 4,
-      name = "sprites",
+      name = "constructors",
       class = "",
       visible = false,
       opacity = 1,
@@ -395,7 +395,7 @@ return {
       parallaxx = 1,
       parallaxy = 1,
       properties = {
-        ["collidable"] = true
+        ["collidable"] = false
       },
       objects = {
         {

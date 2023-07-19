@@ -189,9 +189,9 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="sprites" visible="0" locked="1">
+ <objectgroup id="4" name="constructors" visible="0" locked="1">
   <properties>
-   <property name="collidable" type="bool" value="true"/>
+   <property name="collidable" type="bool" value="false"/>
   </properties>
   <object id="6" name="Player" x="16" y="16">
    <point/>

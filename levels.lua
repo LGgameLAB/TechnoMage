@@ -14,33 +14,28 @@ end
 
 -- Require Physics world to be passed
 function Level:load(owner, world)
+	self.owner = owner
+	
     self.map = sti(self.filepath, { "box2d" })
     self.map:box2d_init(world)
 
+
 	function self.map:drawObjectLayer()
 	end
-	-- Creates a custom layer with an index within the layer stack
-	self.map:addCustomLayer("Sprite Layer", 3)
 
-	-- Add data to Custom Layer
+	self.map:addSpriteLayer("Sprite Layer", 3) -- Name and stack index
+
 	self.spriteLayer = self.map.layers["Sprite Layer"]
-	self.spriteLayer.sprites = {
-		owner.player
-	}
+	self.spriteLayer:add(owner.player)
 
-	-- Update callback for Custom Layer
-	function self.spriteLayer:update(dt)
-		for _, sprite in pairs(self.sprites) do
-			sprite:update(dt)
+	self.constructors = self.map.layers["constructors"]
+	for k, v in ipairs(self.constructors.objects) do
+		if v.name == "Player" then
+			owner.player:setPos(v.x, v.y)
 		end
 	end
 
-	-- Draw callback for Custom Layer
-	function self.spriteLayer:draw()
-		for _, sprite in pairs(self.sprites) do
-			sprite:draw() --tx, ty, r, sx, sy, ox, oy, kx, ky 
-		end
-	end
+
 end
 
 function Level:update(dt)
@@ -50,7 +45,15 @@ end
 function Level:draw()
 	for _, layer in ipairs(self.map.layers) do
 		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
+			d = layer.properties.depth
+			if d then
+				-- print(d)
+				self.owner.cam:setDepth(d)
+			end
 			self.map:drawLayer(layer)
+			if d then 
+				self.owner.cam:reverseDepth(d)
+			end
 		end
 	end
 	-- love.event.push("quit")
@@ -61,4 +64,4 @@ function Level:draw()
 	end
 end
 
-return {Level1 = Level('me', 'assets/maps/test2.lua')}
+return {Level1 = Level('me', 'assets/maps/level1.lua')}

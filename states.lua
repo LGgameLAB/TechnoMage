@@ -84,6 +84,10 @@ function main:load(owner)
 
     self.player = require('player')
     
+    local camera = require('libs/util/camera')
+    self.cam = camera(0,0, 1)
+    self.cam.smoother = camera.smooth.damped(2)--camera.smooth.linear(100)
+    
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
 	self.physics = love.physics.newWorld(0, 0)
@@ -91,9 +95,7 @@ function main:load(owner)
     self.level:load(self, self.physics)
     self.player:load(self, self.physics)
 
-    local camera = require('libs/util/camera')
-    self.cam = camera(0,0, 1)
-    self.cam.smoother = camera.smooth.damped(2)--camera.smooth.linear(100)
+    
 end
 
 function main:update(dt)

@@ -7,11 +7,11 @@ function Class:init(...) end
 function Class:extend(obj)
 	local obj = obj or {}
 
-	local function copyTable(table, destination)
-		local table = table or {}
+	local function copyTable(Table, destination)
+		local Table = Table or {}
 		local result = destination or {}
 
-		for k, v in pairs(table) do
+		for k, v in pairs(Table) do
 			if not result[k] then
 				if type(v) == "table" and k ~= "__index" and k ~= "__newindex" then
 					result[k] = copyTable(v)
@@ -19,7 +19,7 @@ function Class:extend(obj)
 					result[k] = v
 				end
 			end
-		end 
+		end
 
 		return result
 	end
@@ -68,10 +68,14 @@ function Class:extend(obj)
 			if val and val.afterSet then val.afterSet(table, v) end
 		else
 			table._[key] = value
+			-- table._.super()[key] = value
 		end
 	end
 
 	setmetatable(obj, mt)
+	function obj._.super()
+		return self
+	end
 
 	return obj
 end
