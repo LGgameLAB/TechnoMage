@@ -1069,11 +1069,23 @@ function Map:drawImageLayer(layer)
 	if type(layer) == "string" or type(layer) == "number" then
 		layer = self.layers[layer]
 	end
-
+	
 	assert(layer.type == "imagelayer", "Invalid layer type: " .. layer.type .. ". Layer must be of type: imagelayer")
+
+	-- local x, y = game.state.cam.cameraCoords(layer.x, layer.y)
+	-- local camRect = utils.rect(0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+	local w, h = layer.image:getDimensions()
 
 	if layer.image ~= "" then
 		lg.draw(layer.image, layer.x, layer.y)
+		lg.draw(layer.image, layer.x-w, layer.y+h)
+		lg.draw(layer.image, layer.x-w, layer.y-h)
+		lg.draw(layer.image, layer.x-w, layer.y)
+		lg.draw(layer.image, layer.x+w, layer.y)
+		lg.draw(layer.image, layer.x+w, layer.y-h)
+		lg.draw(layer.image, layer.x+w, layer.y+h)
+		lg.draw(layer.image, layer.x, layer.y+h)
+		lg.draw(layer.image, layer.x, layer.y-h)
 	end
 end
 

@@ -7,8 +7,9 @@ Player = class()
 
 function Player:init(name)
     self.pos = Vec(0, 0)
-    self.speed = 69000
-    self.turnSpeed = 290000
+    self.shape = love.physics.newPolygonShape(4, 8, 4, 24, 11, 24, 30, 15, 11, 8)
+    self.speed = 19000
+    self.turnSpeed = 30000
     self.r = 0
     self.canShoot = true
     self.shootDelay = 0.2
@@ -26,11 +27,11 @@ function Player:load(owner, world)
 
     self.body = love.physics.newBody(world, self.pos.x, self.pos.y, "dynamic")
     -- self.body:setFixedRotation(true)
-    self.body:setMass(1000)
+    self.body:setMass(3000)
     self.body:setLinearDamping( 0.2 )
     self.body:setAngularDamping( 0.9 )
 
-    self.shape = love.physics.newPolygonShape(0,0, w, 0, w, h, 0, h)
+    -- self.shape = love.physics.newPolygonShape(0,0, w, 0, w, h, 0, h)
     self.fixture = love.physics.newFixture( self.body, self.shape)
 
     self.body:setAngle(0)

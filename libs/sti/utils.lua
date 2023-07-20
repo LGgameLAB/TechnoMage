@@ -214,4 +214,49 @@ function utils.deepCopy(t)
 	return copy
 end
 
+Rect = {}
+Rect.__index = Rect
+
+function Rect.new(x, y, w, h)
+	local self = setmetatable({}, Rect)
+    self.x = x
+    self.y = y
+    self.width, self.w = w, w
+    self.height, self.h = h, h
+    self.pos = {x = x, y = y}
+	return self
+end
+
+function Rect:get(mode)
+    if inArray(mode, { "r", "right"}) then
+        return self.x + self.w
+    elseif inArray(mode, { "l", "left"}) then
+        return self.x
+    elseif inArray(mode, {"u", "up", "top", "t"}) then
+        return self.y
+    elseif inArray(mode, {"d", "down", "bottom", "b"}) then
+        return self.y + self.h
+    elseif inArray(mode, {"center", "middle"}) then
+        return {self.x+self.w*0.5, self.y +self.h*0.5}
+    elseif inArray(mode, {"topleft", "origin", "o"}) then
+        return {self.x, self.y}
+	elseif inArray(mode, {"bottomright"}) then
+        return {self.x+self.w, self.y+self.h}
+    end
+    
+    error('Rect query mode not recognized')
+end
+
+function Rect:collide(other)
+    if self:get('r') > other:get('l')  and self:get('l') < other:get('r')
+     and self:get('t') < other:get('b') and self:get('b') > other:get('t') then
+        return true
+    end
+    return false
+end
+
+function utils.rect(x, y, w, h)
+	return Rect.new(x, y, w, h)
+end
+
 return utils
