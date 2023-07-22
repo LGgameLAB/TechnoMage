@@ -83,6 +83,7 @@ return {
 		end
 
 		local function calculateObjectPosition(object, tile)
+			-- print("fuck me")
 			local o = {
 				shape   = object.shape,
 				x       = (object.dx or object.x) + map.offsetx,
@@ -99,6 +100,7 @@ return {
 
 			o.r = object.rotation or 0
 			if o.shape == "rectangle" then
+				-- print('less go')
 				local cos = math.cos(math.rad(o.r))
 				local sin = math.sin(math.rad(o.r))
 				local oy  = 0
@@ -157,15 +159,23 @@ return {
 				end
 			elseif o.shape == "polygon" then
 				-- Recalculate collision polygons inside tiles
+				local cos = math.cos(math.rad(o.r))
+				local sin = math.sin(math.rad(o.r))
 				if tile then
-					local cos = math.cos(math.rad(o.r))
-					local sin = math.sin(math.rad(o.r))
 					for _, vertex in ipairs(o.polygon) do
 						vertex.x = vertex.x + o.x
 						vertex.y = vertex.y + o.y
 						vertex.x, vertex.y = utils.rotate_vertex(map, vertex, o.x, o.y, cos, sin)
 					end
 				end
+
+				-- local sx, sy = utils.getPolySize(o.polygon)
+				-- offsetX =  cos *sx  - sin * sy
+				-- offsetY =  sin * sx + cos * sy
+				-- for _, vertex in ipairs(o.polygon) do
+				-- 	vertex.x = vertex.x + offsetX
+				-- 	vertex.y = vertex.y + offsetY
+				-- end
 
 				local vertices  = getPolygonVertices(o)
 				local triangles = love.math.triangulate(vertices)
@@ -174,6 +184,8 @@ return {
 					addObjectToWorld(o.shape, triangle, userdata, tile or object)
 				end
 			elseif o.shape == "polyline" then
+				
+				print('poly')
 				local vertices = getPolygonVertices(o)
 				addObjectToWorld(o.shape, vertices, userdata, tile or object)
 			end

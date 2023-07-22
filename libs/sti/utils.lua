@@ -150,9 +150,32 @@ function utils.rotate_vertex(map, vertex, x, y, cos, sin, oy)
 
 	return
 		x + cos * vertex.x - sin * vertex.y,
-		y + sin * vertex.x + cos * vertex.y - (oy or 0)
+		y + sin * vertex.x + cos * vertex.y-- - (oy or 0)
 end
 
+function utils.rotate_vertex2(map, vertex, x, y, cos, sin)
+	if map.orientation == "isometric" then
+		x, y               = utils.convert_isometric_to_screen(map, x, y)
+		vertex.x, vertex.y = utils.convert_isometric_to_screen(map, vertex.x, vertex.y)
+	end
+
+	vertex.x = vertex.x - x
+	vertex.y = vertex.y - y
+
+	return
+		x + cos * vertex.x - sin * vertex.y+x,
+		y + sin * vertex.x + cos * vertex.y+y
+end
+
+function utils.getPolySize(ppolygon)
+	local xs, ys = {}, {}
+	for _, p in ipairs(ppolygon) do
+		table.insert(xs, p.x)
+		table.insert(ys, p.y)
+	end
+
+	return math.max(unpack(xs)) - math.min(unpack(xs)), math.max(unpack(ys)) - math.min(unpack(ys))
+end
 --- Project isometric position to cartesian position
 function utils.convert_isometric_to_screen(map, x, y)
 	local mapW    = map.width
@@ -212,6 +235,15 @@ function utils.deepCopy(t)
 		copy[k] = v
 	end
 	return copy
+end
+
+function utils.indexOf(array, value)
+    for i, v in ipairs(array) do
+        if v == value then
+            return i
+        end
+    end
+    return nil
 end
 
 Rect = {}

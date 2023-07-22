@@ -4,7 +4,16 @@ function inArray(v, t)
     for i=1,#t do
       if v == t[i] then return true end
     end
-  end
+end
+function indexOf(array, value)
+    for i, v in ipairs(array) do
+        if v == value then
+            return i
+        end
+    end
+    return nil
+end
+
 Rect = class()
 
 function Rect:init(x, y, w, h)
@@ -48,4 +57,4 @@ Vector2d = function(x, y)
     return {x=x, y=y}
 end
 
-return {Rect=Rect, inArray=inArray, Vector2d=Vector2d}
+return {Rect=Rect, inArray=inArray, Vector2d=Vector2d, indexOf=indexOf}

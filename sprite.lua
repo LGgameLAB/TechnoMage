@@ -26,8 +26,8 @@ function Sprite.update(self, dt)
 end
 
 function Sprite.kill(self)
-    for _, l in self.layers do
-        self.layer.remove(self)
+    for _, l in ipairs(self.layers) do
+        l:remove(self)
     end
 end
 

@@ -8,8 +8,8 @@ Player = class()
 function Player:init(name)
     self.pos = Vec(0, 0)
     self.shape = love.physics.newPolygonShape(4, 8, 4, 24, 11, 24, 30, 15, 11, 8)
-    self.speed = 19000
-    self.turnSpeed = 30000
+    self.speed = 19000*0.00416
+    self.turnSpeed = 30000*0.00416
     self.r = 0
     self.canShoot = true
     self.shootDelay = 0.2
@@ -21,7 +21,7 @@ function Player:load(owner, world)
     self.src = love.graphics.newImage("assets/player/space-ship-v1.png")
     self.srcSize = Vec(self.src:getWidth(), self.src:getHeight())
     self.w, self.h = 32, 32
-    w, h = self.w, self.h
+    local w, h = self.w, self.h
     local g = anim8.newGrid(32, 32, self.srcSize.x, self.srcSize.y)
     self.animations =  anim8.newAnimation(g('1-2',1), 0.1)
 
@@ -33,6 +33,7 @@ function Player:load(owner, world)
 
     -- self.shape = love.physics.newPolygonShape(0,0, w, 0, w, h, 0, h)
     self.fixture = love.physics.newFixture( self.body, self.shape)
+    self.fixture:setCategory(1)
 
     self.body:setAngle(0)
 
@@ -65,24 +66,24 @@ function Player:update(dt)
 end
 
 function Player:move(dt)
-    x, y = self.body:getPosition()
+    local x, y = self.body:getPosition()
     if love.keyboard.isDown( binds.rotR ) then
         -- self.body:applyAngularImpulse(self.turnSpeed*dt)
-        self.body:applyTorque(self.turnSpeed*dt)
+        self.body:applyTorque(self.turnSpeed)
     end
     if love.keyboard.isDown( binds.rotL ) then
         -- self.body:applyAngularImpulse(-self.turnSpeed*dt)
-        self.body:applyTorque(-self.turnSpeed*dt)
+        self.body:applyTorque(-self.turnSpeed)
     end
     if love.keyboard.isDown( binds.rocket ) then
         impulse = Vec(self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
-        self.body:applyForce(impulse.x*dt, impulse.y*dt)
+        self.body:applyForce(impulse.x, impulse.y)
     end
     if love.keyboard.isDown( binds.reverseRocket ) then
         impulse = Vec(-self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
-        self.body:applyForce(impulse.x*dt, impulse.y*dt)
+        self.body:applyForce(impulse.x, impulse.y)
     end
 end
 

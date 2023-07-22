@@ -18,6 +18,12 @@ function Level:load(owner, world)
 	
     self.map = sti(self.filepath, { "box2d" })
     self.map:box2d_init(world)
+	for _, obj in pairs(self.map.box2d_collision) do
+		if obj.fixture then
+			obj.fixture:setCategory(2)
+			obj.fixture:setGroupIndex( 300 )
+		end
+	end
 
 
 	function self.map:drawObjectLayer()

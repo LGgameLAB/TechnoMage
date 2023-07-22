@@ -710,12 +710,14 @@ function Map:setObjectSpriteBatches(layer)
 			local tileX = object.x + tile.offset.x
 			local tileY = object.y + tile.offset.y
 			local tileR = math.rad(object.rotation)
+			-- print('yas queen')
 
 			-- Compensation for scale/rotation shift
 			if tile.sx == -1 then
 				tileX = tileX + object.width
 
 				if tileR ~= 0 then
+					-- print('hewp')
 					tileX = tileX - object.width
 					ox = ox + tile.width
 				end
@@ -765,10 +767,19 @@ function Map:addSpriteLayer(name, layer)
     }
 
 	function layer.add(l, ...)
-		for _, v in ipairs({...}) do
+		for i, v in pairs({...}) do
 			table.insert(l.sprites, v)
 		end
 	end
+
+	function layer.remove(l, sprite)
+		for i, s in ipairs(l.sprites) do
+			if s == sprite then
+				table.remove(l.sprites, i)
+			end 
+		end
+	end
+
 	-- Draw callback for Sprite Layer
 	function layer.draw(l)
 		for _, sprite in ipairs(l.sprites) do
