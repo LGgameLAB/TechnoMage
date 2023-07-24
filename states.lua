@@ -96,14 +96,14 @@ function main:load(owner)
     self.level:load(self, self.physics)
     self.player:load(self, self.physics)
 
-    self.lightCanvas = love.graphics.newCanvas()
-    self.lighter = require('libs/lighter')()
-    for _, body in pairs(self.physics:getBodies()) do
-        for _, fixture in pairs(body:getFixtures()) do
-            shape = fixture:getShape()
-            self.lighter:addPolygon({shape:getPoints()})
-        end
-    end
+    -- self.lightCanvas = love.graphics.newCanvas()
+    -- self.lighter = require('libs/lighter')()
+    -- for _, body in pairs(self.physics:getBodies()) do
+    --     for _, fixture in pairs(body:getFixtures()) do
+    --         shape = fixture:getShape()
+    --         self.lighter:addPolygon({shape:getPoints()})
+    --     end
+    -- end
     -- self.light1 = self.lighter:addLight(10, 300, 500, 0.8,0.8,0.8)
     -- love.graphics.stencil = true
 end
