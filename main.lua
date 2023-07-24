@@ -9,12 +9,12 @@ function love.load()
 end
 
 function love.draw()
-    love.graphics.print(love.timer.getFPS( ))
     if CROSSHATCH then
         love.graphics.line(0, height*0.5, width, height*0.5)
         love.graphics.line(width*0.5, 0, width*0.5, height)
     end
     game:draw()
+    love.graphics.print(love.timer.getFPS( ))
 end
 
 function love.update(dt)

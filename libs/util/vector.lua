@@ -63,6 +63,10 @@ function vector:unpack()
 	return self.x, self.y
 end
 
+function vector:toTable()
+	return {self.x, self.y}
+end
+
 function vector:__tostring()
 	return "("..tonumber(self.x)..","..tonumber(self.y)..")"
 end

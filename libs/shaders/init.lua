@@ -221,4 +221,7 @@ function shaders:postdraw()
 	love.graphics.setShader()
 end
 
+function shaders:getCurrentCanvas()
+	
+end
 return shaders

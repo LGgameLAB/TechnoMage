@@ -46,6 +46,7 @@ function State:runEvents()
     if love.keyboard.isDown("f11") and self.canToggleFull then
         love.window.setFullscreen(not love.window.getFullscreen())
         self.canToggleFull = false
+        self.owner.shaders:refresh()
         game.timer.after(0.5, function()self.canToggleFull = true end)
     end
 end
@@ -95,11 +96,21 @@ function main:load(owner)
     self.level:load(self, self.physics)
     self.player:load(self, self.physics)
 
-    
+    self.lightCanvas = love.graphics.newCanvas()
+    self.lighter = require('libs/lighter')()
+    for _, body in pairs(self.physics:getBodies()) do
+        for _, fixture in pairs(body:getFixtures()) do
+            shape = fixture:getShape()
+            self.lighter:addPolygon({shape:getPoints()})
+        end
+    end
+    -- self.light1 = self.lighter:addLight(10, 300, 500, 0.8,0.8,0.8)
+    -- love.graphics.stencil = true
 end
 
 function main:update(dt)
     self:runEvents()
+
     self.physics:update(dt)
     self.level:update(dt)
     -- self.cam:lookAt(self.player:getCenter():unpack())
@@ -109,15 +120,38 @@ function main:update(dt)
     else
         self.cam.scale = 1.5
     end
-     
+    
+    game.shaders:setParameter("light", "screen", {love.graphics.getWidth(), love.graphics.getHeight()})
+    game.shaders:setParameter("light", "num_lights", 1)    
+    game.shaders:setParameter("light", "lights[0].position", {self.cam:cameraCoords(self.player.body:getX(), self.player.body:getY())} )--self.state.player:getCenter():toTable())--{love.graphics.getWidth() / 2.0, love.graphics.getHeight() / 2.0})
+    game.shaders:setParameter("light", "lights[0].diffuse", {1.0, 1.0, 1.0})
+    game.shaders:setParameter("light", "lights[0].power", 64)
+
 end
+
+-- function main:preDrawLights()
+--     love.graphics.setCanvas({ self.lightCanvas, stencil = true})
+--     love.graphics.clear(0.4, 0.4, 0.4) -- Global illumination level
+--     self.lighter:drawLights()
+--     love.graphics.setCanvas()
+--     love.graphics.clear()
+-- end
+
+-- function main:drawLight()
+--     love.graphics.setBlendMode("multiply", "premultiplied")
+--     love.graphics.draw(self.lightCanvas)
+--     love.graphics.setBlendMode("alpha")
+-- end
 
 function main:draw()
     -- Draw the map and all objects within
+
     self.cam:attach()
-	self.level:draw()
+    self.level:draw()
     self.player:draw()
     self.cam:detach()
+
+
 
 end
 

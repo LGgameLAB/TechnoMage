@@ -22,6 +22,7 @@ A game made with the Love game engine and scripted in lua. Screenshots coming so
     * [OOP](https://www.youtube.com/watch?v=g1iKA3lSFms)
     * [Game states](http://gamedevgeek.com/tutorials/managing-game-states-in-c/)
     * [iparis vs pairs](https://www.tutorialspoint.com/what-is-the-difference-between-pairs-vs-ipairs-in-lua#:~:text=While%20both%20of%20them%20have,ipairs()%20function%20surely%20does.)
+    * [lighting](https://www.youtube.com/watch?v=BkxN2pwwRPM)
 * ### Misc
     * [Pixel Art Palettes](https://lospec.com/palette-list)
     * [Me right now](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
