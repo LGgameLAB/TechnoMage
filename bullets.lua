@@ -8,10 +8,9 @@ Bullet:set({
 
 function Bullet:init(owner, x, y, ang)
     -- This is one of the few objects where I will load the data on initiation
-    self.name = "bullet"
+    self._identify = "bullet"
     self.owner = owner 
     self.super().load(self, {'Sprite Layer'})
-    table.insert(self.owner.owner.level.spriteLayer.sprites, self)
     self.body = love.physics.newBody(game.state.physics, x, y, 'dynamic')
     self.body:setMass(4)
     self.body:setBullet(true)

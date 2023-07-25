@@ -17,6 +17,7 @@ function Player:init(name)
 end
 
 function Player:load(owner, world)
+    self._identify = "player"
     self.owner = owner
     self.src = love.graphics.newImage("assets/player/space-ship-v1.png")
     self.srcSize = Vec(self.src:getWidth(), self.src:getHeight())

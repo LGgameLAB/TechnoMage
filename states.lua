@@ -96,16 +96,46 @@ function main:load(owner)
     self.level:load(self, self.physics)
     self.player:load(self, self.physics)
 
-    -- self.lightCanvas = love.graphics.newCanvas()
-    -- self.lighter = require('libs/lighter')()
-    -- for _, body in pairs(self.physics:getBodies()) do
-    --     for _, fixture in pairs(body:getFixtures()) do
-    --         shape = fixture:getShape()
-    --         self.lighter:addPolygon({shape:getPoints()})
-    --     end
-    -- end
-    -- self.light1 = self.lighter:addLight(10, 300, 500, 0.8,0.8,0.8)
-    -- love.graphics.stencil = true
+    -- self.numLights = 1
+    -- game.shaders.setParameter('numlights', self.numLights)
+end
+
+function main.addLight(t, i)
+    
+    for key, value in pairs(t) do
+        game.shaders:setParameter('light', string.format("lights[%i].%s", i, key),  value)
+    end
+end
+
+function main:drawLights()
+    local lights = 1
+    local buls = {}
+    for k, v in ipairs(self.level.map.layers["Sprite Layer"].sprites) do
+        if v._identify == "bullet" then
+            -- print(#self.level.map.layers["Sprite Layer"].sprites)
+            table.insert(buls, v)
+            lights = lights + 1
+        end
+    end
+
+    game.shaders:setParameter("light", "num_lights", lights)
+    -- game.shaders:setParameter("light", "screen",  {love.graphics.getWidth(), love.graphics.getHeight()})
+    self.addLight({
+            position = { self.cam:cameraCoords(self.player.body:getX(), self.player.body:getY()) },
+            diffuse = {1.0, 1.0, 1.0},
+            power = 64,
+        }, 0)
+    
+    for i, v in ipairs(buls) do
+        -- print(i)
+        self.addLight({
+            position = { self.cam:cameraCoords(v.body:getX(), v.body:getY()) },
+            diffuse = {1.0, 0.2, 0.2},
+            power = 128,
+        }, i)
+    end
+    
+
 end
 
 function main:update(dt)
@@ -120,13 +150,6 @@ function main:update(dt)
     else
         self.cam.scale = 1.5
     end
-    
-    game.shaders:setParameter("light", "screen", {love.graphics.getWidth(), love.graphics.getHeight()})
-    game.shaders:setParameter("light", "num_lights", 1)    
-    game.shaders:setParameter("light", "lights[0].position", {self.cam:cameraCoords(self.player.body:getX(), self.player.body:getY())} )--self.state.player:getCenter():toTable())--{love.graphics.getWidth() / 2.0, love.graphics.getHeight() / 2.0})
-    game.shaders:setParameter("light", "lights[0].diffuse", {1.0, 1.0, 1.0})
-    game.shaders:setParameter("light", "lights[0].power", 64)
-
 end
 
 -- function main:preDrawLights()
@@ -149,6 +172,7 @@ function main:draw()
     self.cam:attach()
     self.level:draw()
     self.player:draw()
+    self:drawLights()
     self.cam:detach()
 
 

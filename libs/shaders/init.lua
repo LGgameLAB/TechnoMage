@@ -168,7 +168,9 @@ function shaders:refresh()
 		self.po2xres, self.po2yres = FindNextPO2(self.xres), FindNextPO2(self.yres)
 
 		for i,v in ipairs(self.passes) do
+			local on = v.on
 			self:set(i, v.cureffect)
+			self.passes[i].on = on
 		end
 	end
 

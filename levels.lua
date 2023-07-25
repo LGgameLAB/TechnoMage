@@ -2,6 +2,7 @@
 require('settings')
 
 sti = require 'libs/sti'
+sprites = require 'sprites'
 
 class = require('class')
 Level = class()
@@ -34,13 +35,16 @@ function Level:load(owner, world)
 	self.spriteLayer = self.map.layers["Sprite Layer"]
 	self.spriteLayer:add(owner.player)
 
+	game.shaders.passes[3].on = false
+
 	self.constructors = self.map.layers["constructors"]
 	for k, v in ipairs(self.constructors.objects) do
 		if v.name == "Player" then
 			owner.player:setPos(v.x, v.y)
+		else
+			self.spriteLayer:add(sprites[v.name])
 		end
 	end
-
 
 end
 
@@ -53,11 +57,10 @@ function Level:draw()
 		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
 			d = layer.properties.depth
 			if d then
-				-- print(d)
 				self.owner.cam:setDepth(d)
 			end
 			self.map:drawLayer(layer)
-			if d then 
+			if d then
 				self.owner.cam:reverseDepth(d)
 			end
 		end

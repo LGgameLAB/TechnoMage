@@ -4,6 +4,7 @@ require('settings')
 function love.load()
     -- love.graphics.setBackgroundColor(1,1,1)
     print(love.graphics.getRendererInfo())
+    -- love.light.newBody()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     game:load()
 end

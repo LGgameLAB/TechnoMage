@@ -9,7 +9,7 @@ struct Light {
 extern Light lights[NUM_LIGHTS];
 extern int num_lights;
 
-extern vec2 screen;
+// extern vec2 screen;
 
 const float constant = 1.0;
 const float linear = 0.09;
@@ -17,6 +17,7 @@ const float quadratic = 0.032;
 
 vec4 effect(vec4 color, Image image, vec2 uvs, vec2 screen_coords){
     vec4 pixel = Texel(image, uvs);
+    vec2 screen = vec2(love_ScreenSize.x, love_ScreenSize.y);
 
     vec2 norm_screen = screen_coords / screen;
     vec3 diffuse = vec3(0);
