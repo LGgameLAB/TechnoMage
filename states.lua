@@ -58,10 +58,11 @@ end
  
 Button = require('ui').Button
 -- This is where we define our Menu Scene
-mainMenu = State()
+mainMenu = State:extend()
 
 function mainMenu:load(owner)
     self.bigBtn = Button(self.owner, 20, 80, 60, 20, "hello", function () owner:switchStates(owner.states.main) end)
+    game.shaders.passes[3].on = false
 end
 
 function mainMenu:update(dt)

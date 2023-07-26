@@ -47,7 +47,7 @@ function Game:load()
 
     self.states = require('states')
     self.state = nil
-    self:switchStates(self.states.main)--Menu)
+    self:switchStates(self.states.main)
 
     self:loadSave()
 end

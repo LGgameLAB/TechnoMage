@@ -1,20 +1,23 @@
 -- imports
 require('settings')
 
+Vector = require('libs/util/vector')
+Rect = require('util').Rect
+
 sti = require 'libs/sti'
 sprites = require 'sprites'
 
 class = require('class')
-Level = class()
-Level:set({color = {1,1,1}})
+TiledLevel = class()
+TiledLevel:set({color = {1,1,1}})
 
-function Level:init(owner, filepath)
+function TiledLevel:init(owner, filepath)
     self.owner = owner
     self.filepath = filepath
 end
 
 -- Require Physics world to be passed
-function Level:load(owner, world)
+function TiledLevel:load(owner, world)
 	self.owner = owner
 	
     self.map = sti(self.filepath, { "box2d" })
@@ -48,11 +51,11 @@ function Level:load(owner, world)
 
 end
 
-function Level:update(dt)
+function TiledLevel:update(dt)
     self.map:update(dt)
 end
 
-function Level:draw()
+function TiledLevel:draw()
 	for _, layer in ipairs(self.map.layers) do
 		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
 			d = layer.properties.depth
@@ -73,4 +76,97 @@ function Level:draw()
 	end
 end
 
-return {Level1 = Level('me', 'assets/maps/level1.lua')}
+Asteroid = require('sprites').Asteroid
+
+-- Warning, you are going to have to make some sort of uniform format across levels to manage sprites 
+-- because currently the bullets are trying to locate themselves in level.map.layers[LAYERNAME]:add(SPRITE)
+
+Chunk = class()
+
+function Chunk:init(owner, x, y)
+	self.owner = owner
+	self.asteroids = {}
+	self.x, self.y = x, y
+	self.rect = Rect(x, y, owner.chunkWidth, owner.chunkHeight)
+	
+	math.randomseed(os.time())
+	for a=1,owner.asteroidsPerChunk do
+		table.insert(self.asteroids, Asteroid())
+	end
+end
+
+AsteroidLevel = class()
+
+function AsteroidLevel:init(filepath)
+	-- stores all chunks
+	self.chunks = {}
+	-- stores current chunk
+	self.chunk = nil
+	self.chunkWidth = 1000
+	self.chunkHeight = 1000
+	self.asteroidsPerChunk = 11
+end
+
+function AsteroidLevel:load(owner)
+	self.loadChunk(0, 0)
+	self.player:setPos(500, 500)
+	self.map = sti(self.filepath, { "box2d" })
+end
+
+function AsteroidLevel:update(dt)
+	local p = self.owner.player
+	local pVel = {p.body:getLinearVelocity()}
+	local pPos = p.pos
+
+	if pPos.x - self.chunk.x < pVel[1] * 2 then
+		self:loadChunk(self.chunk.x - self.chunkWidth, self.chunk.y)
+	elseif pPos.x - self.chunk.x > self.chunk.w - pVel[1] * 2 then
+		self:loadChunk(self.chunk.x + self.chunkWidth, self.chunk.y)
+	end
+
+	if pPos.y - self.chunk.y < pVel[2] * 2 then
+		self:loadChunk(self.chunk.x, self.chunk.y - self.chunkHeight)
+	elseif pPos.y - self.chunk.y > self.chunk.h - pVel[2] * 2 then
+		self:loadChunk(self.chunk.x, self.chunk.y + self.chunkHeight)
+	end
+
+	self:getCurrentChunk()
+
+end
+
+function AsteroidLevel:loadChunk(x, y)
+	for _, c in pairs(self.chunks) do
+		if c.x == x and c.y == y then
+			return nil
+		end
+	end
+
+	table.insert(self.chunks, Chunk(self, x, y))
+end
+
+function AsteroidLevel:getCurrentChunk()
+	local p = self.owner.player
+	local playerRect = Rect(0, 0, p.w, p.h)
+	playerRect:setCenter(p:getCenter())
+	for _, c in pairs(self.chunks) do
+		if c.rect:collide(playerRect) then
+			self.chunk = c
+		end
+	end
+
+	error('player is outside of all chunks')
+end
+
+-- Really should ignore tile layers but whatever
+function AsteroidLevel:draw()
+	for _, layer in ipairs(self.map.layers) do
+		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
+			d = layer.properties.depth or nil
+			self.owner.cam:setDepth(d)
+			self.map:drawLayer(layer)
+			self.owner.cam:reverseDepth(d)
+		end
+	end
+end
+
+return {Level1 = TiledLevel('me', 'assets/maps/level1.lua')}

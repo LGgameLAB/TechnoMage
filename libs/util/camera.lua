@@ -125,13 +125,17 @@ function camera:detach()
 end
 
 function camera:setDepth(d)
-	local x, y = -(self.x)*(d-1), -(self.y)*(d-1)
-	love.graphics.translate(x, y)
+	if d then
+		local x, y = -(self.x)*(d-1), -(self.y)*(d-1)
+		love.graphics.translate(x, y)
+	end
 end
 function camera:reverseDepth(d)
-	local x, y = (self.x)*(d-1), (self.y)*(d-1)
+	if d then
+		local x, y = (self.x)*(d-1), (self.y)*(d-1)
 
-	love.graphics.translate(x, y)
+		love.graphics.translate(x, y)
+	end
 end
 function camera:draw(...)
 	local x,y,w,h,noclip,func

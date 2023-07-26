@@ -1,4 +1,3 @@
-class = require('class')
 -- These only work with strings
 function inArray(v, t)
     for i=1,#t do
@@ -14,6 +13,7 @@ function indexOf(array, value)
     return nil
 end
 
+class = require('class')
 Rect = class()
 
 function Rect:init(x, y, w, h)
@@ -24,7 +24,7 @@ function Rect:init(x, y, w, h)
     self.pos = {x = x, y = y}
 end
 
-function Rect:get(mode)
+function Rect:getval(mode)
     if inArray(mode, { "r", "right"}) then
         return self.x + self.w
     elseif inArray(mode, { "l", "left"}) then
@@ -42,9 +42,14 @@ function Rect:get(mode)
     error('Rect query mode not recognized')
 end
 
+function Rect:setCenter(x, y)
+    self.x = x - self.width * 0.5
+    self.y = y - self.height * 0.5
+end
+
 function Rect:collide(other)
-    if self:get('r') > other:get('l')  and self:get('l') < other:get('r')
-     and self:get('t') < other:get('b') and self:get('b') > other:get('t') then
+    if self:getval('r') > other:getval('l')  and self:getval('l') < other:getval('r')
+     and self:getval('t') < other:getval('b') and self:getval('b') > other:getval('t') then
         return true
     end
     return false

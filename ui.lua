@@ -10,10 +10,10 @@ Button:set({
     hovered = false
 })
 
-function Button.new(owner, x, y, w, h, text, callback)
-    local self = setmetatable({}, Button)
+function Button:init(owner, x, y, w, h, text, callback)
     self.owner = owner
     self.rect = Util.Rect(x, y, w, h)
+
     if text then
         self.text = love.graphics.newText(love.graphics.getFont( ), text)
     else
@@ -21,13 +21,13 @@ function Button.new(owner, x, y, w, h, text, callback)
     end
 
     self.callback = callback or function() return nil end
-    -- print(love.mouse.setRelativeMode( ))
-    return self
+    print(love.mouse.getRelativeMode( ))
 end
 
 function Button:update(dt)
     local x, y = love.mouse.getPosition()
-    self.hovered = Util.Rect(x, y, 1, 1):collide(self.rect)
+    local mouserect = Util.Rect(x, y, 1, 1)
+    self.hovered = mouserect:collide(self.rect)
     if self.hovered and love.mouse.isDown(1) then
         print('not ')
         self.callback()
@@ -44,7 +44,6 @@ function Button:draw()
     end
     love.graphics.setColor(unpack(color))
 
-    
     love.graphics.rectangle("fill", self.rect.x, self.rect.y, self.rect.w, self.rect.h)
     if self.text then
         love.graphics.draw(self.text, self.rect.x, self.rect.y)
