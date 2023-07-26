@@ -18,4 +18,4 @@ end
 function Enemy:draw()
 end
 
-return {Enemy}
+return {Enemy=Enemy}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+ <editorsettings>
+  <export target="level0.lua" format="lua"/>
+ </editorsettings>
+ <imagelayer id="2" name="stars1">
+  <image source="../aseprite/spr_stars01.png" width="2560" height="2560"/>
+ </imagelayer>
+ <imagelayer id="3" name="stars2" repeatx="1" repeaty="1">
+  <image source="../aseprite/spr_stars02.png" width="2560" height="2560"/>
+  <properties>
+   <property name="depth" type="float" value="0.95"/>
+  </properties>
+ </imagelayer>
+</map>

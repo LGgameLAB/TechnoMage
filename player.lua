@@ -10,6 +10,7 @@ function Player:init(name)
     self.shape = love.physics.newPolygonShape(4, 8, 4, 24, 11, 24, 30, 15, 11, 8)
     self.speed = 19000*0.00416
     self.turnSpeed = 30000*0.00416
+    self.w, self.h = 32, 32
     self.r = 0
     self.canShoot = true
     self.shootDelay = 0.2
@@ -38,7 +39,7 @@ function Player:load(owner, world)
 
     self.body:setAngle(0)
 
-    table.insert(owner.level.map.box2d_collision, self)
+    -- table.insert(owner.level.map.box2d_collision, self)
     -- self.body:setAngularVelocity( 0.9 )
 end
 

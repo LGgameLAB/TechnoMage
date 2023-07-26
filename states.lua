@@ -93,9 +93,10 @@ function main:load(owner)
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
 	self.physics = love.physics.newWorld(0, 0, true)
-    self.level = require('levels').Level1
-    self.level:load(self, self.physics)
     self.player:load(self, self.physics)
+    self.level = require('levels').Level0
+    self.level:load(self, self.physics)
+    
 
     -- self.numLights = 1
     -- game.shaders.setParameter('numlights', self.numLights)
