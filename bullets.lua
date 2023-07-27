@@ -16,7 +16,7 @@ function Bullet:init(owner, x, y, ang)
     self.body:setBullet(true)
     self.shape = love.physics.newCircleShape(2)
     self.fixture = love.physics.newFixture(self.body, self.shape)
-    self.fixture:setMask(1)
+    -- self.fixture:setMask(1)
     self.angle = ang
     local dir = Vec(self.vel, 0):rotated(ang)
     self.body:applyForce(dir.x, dir.y)
@@ -40,7 +40,7 @@ function Bullet:update(dt)
                     -- self.body:setActive( false )
                     self.super().kill(self)
                     self.super().kill(self)
-                    self.body:setActive(false)
+                    -- self.body:setActive(false)
                     -- self.fixture:destroy()
                     break
                 end

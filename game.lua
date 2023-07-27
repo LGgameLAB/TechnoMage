@@ -11,11 +11,12 @@ end
 
 function Game:load()
     self.shaders = require('libs/shaders')
-    self.shaders:init(nil, 3)
+    self.shaders:init(nil, 4)
     scale = 1
     self.shaders:set(1, 'chromatic_aberration')
     self.shaders:set(2, 'radialblur')
-    self.shaders:set(3, 'light')
+    -- self.shaders:set(3, 'light')
+    -- self.shaders:set(4, 'chatgpt')
     self.timer = require('libs/util/timer')
 
     if self.shaders then

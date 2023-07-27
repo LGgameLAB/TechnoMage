@@ -36,7 +36,7 @@ function Rect:getval(mode)
     elseif inArray(mode, {"center", "middle"}) then
         return {self.x+self.w*0.5, self.y +self.h*0.5}
     elseif inArray(mode, {"topleft", "origin", "o"}) then
-        return {self.x, self.y}
+        return self.x, self.y
     end
     
     error('Rect query mode not recognized')
@@ -55,6 +55,9 @@ function Rect:collide(other)
     return false
 end
 
+function Rect:move(x, y)
+    return Rect(x, y, self.w, self.h)
+end
 -- Vector2d = setmetatable({}, require('class'))
 -- Rect.__index = Rect
 

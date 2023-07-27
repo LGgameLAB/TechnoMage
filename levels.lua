@@ -99,6 +99,8 @@ function Chunk:init(owner, x, y)
 		local a = Asteroid(self, owner.owner.physics, math.random()*self.rect.w + x, math.random()*self.rect.h + y)
 		owner.spriteLayer:add(a)
 		table.insert(self.asteroids, a)
+		table.insert(self.owner.map.box2d_collision, a)
+
 	end
 end
 
@@ -115,14 +117,16 @@ function AsteroidLevel:init(filepath)
 	self.filepath = filepath
 end
 
-function AsteroidLevel:load(owner)
+function AsteroidLevel:load(owner, world)
 	self.owner = owner
 	self.map = sti(self.filepath, { "box2d" })
+	self.map:box2d_init(world)
 	self.map:addSpriteLayer("Sprite Layer", 3) -- Name and stack index
 	self.spriteLayer = self.map.layers["Sprite Layer"]
 	self.spriteLayer:add(owner.player)
 	self:loadChunk(0, 0)
 	self.owner.player:setPos(500, 500)
+	table.insert(self.map.box2d_collision, owner.player)
 
 	
 
@@ -145,20 +149,25 @@ function AsteroidLevel:update(dt)
 	local p = self.owner.player
 	local pVel = {p.body:getLinearVelocity()}
 	local pPos = p.pos
+	local sw, sh = love.window.getMode()
+	local chunky = self.chunk.rect:move(self.owner.cam:cameraCoords(self.chunk.rect:getval('topleft')))
+	
 
-	if pPos.x - self.chunk.x < pVel[1] * -2 then
+
+	if (pPos.x - self.chunk.x < pVel[1] * -2) then
 		self:loadChunk(self.chunk.x - self.chunkWidth, self.chunk.y)
-	elseif pPos.x - self.chunk.x > self.chunkWidth - pVel[1] * 2 then
+	elseif (pPos.x - self.chunk.x > self.chunkWidth - pVel[1])then
 		self:loadChunk(self.chunk.x + self.chunkWidth, self.chunk.y)
 	end
 
-	if pPos.y - self.chunk.y < pVel[2] * -2 then
+	if (pPos.y - self.chunk.y < pVel[2] * -2) then
 		self:loadChunk(self.chunk.x, self.chunk.y - self.chunkHeight)
-	elseif pPos.y - self.chunk.y > self.chunkHeight - pVel[2] * 2 then
+	elseif (pPos.y - self.chunk.y > self.chunkHeight - pVel[2] * 2) then
 		self:loadChunk(self.chunk.x, self.chunk.y + self.chunkHeight)
 	end
 
 	self:getCurrentChunk()
+	print(#self.chunks)
 
 
 end
@@ -200,6 +209,7 @@ function AsteroidLevel:draw()
 	end
 
 	if DEBUG then
+		self.map:box2d_draw()
 		for _, c in pairs(self.chunks) do
 			love.graphics.rectangle('line', c.x, c.y, self.chunkWidth, self.chunkHeight)
 		end

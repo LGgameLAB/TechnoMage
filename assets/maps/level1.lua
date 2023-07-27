@@ -10,7 +10,7 @@ return {
   tilewidth = 32,
   tileheight = 32,
   nextlayerid = 8,
-  nextobjectid = 87,
+  nextobjectid = 93,
   properties = {
     ["collidable"] = true
   },

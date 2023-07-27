@@ -152,6 +152,7 @@ function main:update(dt)
     else
         self.cam.scale = 1.5
     end
+    self.cam.scale = 0.2
 end
 
 -- function main:preDrawLights()

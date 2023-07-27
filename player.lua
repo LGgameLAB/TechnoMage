@@ -39,7 +39,6 @@ function Player:load(owner, world)
 
     self.body:setAngle(0)
 
-    -- table.insert(owner.level.map.box2d_collision, self)
     -- self.body:setAngularVelocity( 0.9 )
 end
 
