@@ -78,9 +78,9 @@ end
 --
 Rect = require('util').Rect
 
-for _, s in pairs(require('sprites')) do
-	print(_, s)
-end 
+-- for _, s in pairs(require('sprites')) do
+-- 	print(_, s)
+-- end 
 Asteroid = require('sprites').Asteroid
 
 -- Warning, you are going to have to make some sort of uniform format across levels to manage sprites 
@@ -94,7 +94,6 @@ function Chunk:init(owner, x, y)
 	self.x, self.y = x, y
 	self.rect = Rect(x, y, owner.chunkWidth, owner.chunkHeight)
 	
-	math.randomseed(os.time())
 	for a=1,owner.asteroidsPerChunk do
 		local a = Asteroid(self, owner.owner.physics, math.random()*self.rect.w + x, math.random()*self.rect.h + y)
 		owner.spriteLayer:add(a)
@@ -104,6 +103,11 @@ function Chunk:init(owner, x, y)
 	end
 end
 
+function Chunk:destroy()
+	for _, s in pairs(self.asteroids) do
+		s:kill()
+	end
+end
 AsteroidLevel = class()
 
 function AsteroidLevel:init(filepath)
@@ -115,6 +119,7 @@ function AsteroidLevel:init(filepath)
 	self.chunkHeight = 1000
 	self.asteroidsPerChunk = 11
 	self.loadDist = 1500
+	self.unloadDist = 2500
 	self.filepath = filepath
 end
 
@@ -125,11 +130,15 @@ function AsteroidLevel:load(owner, world)
 	self.map:addSpriteLayer("Sprite Layer", 3) -- Name and stack index
 	self.spriteLayer = self.map.layers["Sprite Layer"]
 	self.spriteLayer:add(owner.player)
+	math.randomseed(os.time())
 	self:loadChunk(0, 0)
 	self.owner.player:setPos(500, 500)
 	table.insert(self.map.box2d_collision, owner.player)
 
-	
+	local goob = require('sprites').Goober(self, {1000, 800})
+
+	self.spriteLayer:add(goob)
+	-- table.insert(self.map.box2d_collision, goob)
 
 	game.shaders.passes[3].on = false
 
@@ -147,6 +156,7 @@ end
 function AsteroidLevel:update(dt)
 	self.map:update(dt)
 
+	-- Create New Chunks
 	local p = Vector(self.owner.player.body:getX(), self.owner.player.body:getY())
 	local cx, cy = unpack(self.chunk.rect:getval('center'))
 	for x=-1, 1 do
@@ -161,7 +171,14 @@ function AsteroidLevel:update(dt)
 		end
 	end
 
+	-- Delete Old ones
+	for _, c in pairs(self.chunks) do
+		if Vector(unpack(c.rect:getval('center'))):dist(self.owner.player:getCenter()) > self.unloadDist then
+			self:deleteChunk(c)
+		end
+	end
 	self:getCurrentChunk()
+	-- print(#self.spriteLayer.sprites)
 
 end
 
@@ -175,6 +192,16 @@ function AsteroidLevel:loadChunk(x, y)
 
 	table.insert(self.chunks, Chunk(self, x, y))
 	self:getCurrentChunk()
+end
+
+function AsteroidLevel:deleteChunk(chunk)
+	for _, c in pairs(self.chunks) do
+		if c == chunk then
+			c:destroy()
+			table.remove(self.chunks, _)
+			return 
+		end
+	end
 end
 
 function AsteroidLevel:getCurrentChunk()

@@ -15,6 +15,7 @@ function Player:init(name)
     self.canShoot = true
     self.shootDelay = 0.2
     self.name = name
+    self.shady = lg.newShader('libs/shaders/blcknwht.frag')
 end
 
 function Player:load(owner, world)
@@ -45,6 +46,7 @@ end
 function Player:draw()
     -- love.graphics.draw(self.src, self.pos.x, self.pos.y, 0, 2, nil)
     -- love.graphics.draw(self.src, 50, 50, 0, 2)
+    -- lg.setShader(self.shady)
     local ang = self.body:getAngle() % (math.pi*2)
     local scaley = 1
     local oy = 0
@@ -56,6 +58,7 @@ function Player:draw()
     if DEBUG then
         love.graphics.points( self.body:getPosition() )
     end
+    -- lg.setShader(nil)
 end
 
 function Player:update(dt)

@@ -21,7 +21,7 @@ function Button:init(owner, x, y, w, h, text, callback)
     end
 
     self.callback = callback or function() return nil end
-    print(love.mouse.getRelativeMode( ))
+    -- print(love.mouse.getRelativeMode( ))
 end
 
 function Button:update(dt)
@@ -29,7 +29,7 @@ function Button:update(dt)
     local mouserect = Util.Rect(x, y, 1, 1)
     self.hovered = mouserect:collide(self.rect)
     if self.hovered and love.mouse.isDown(1) then
-        print('not ')
+        -- print('not ')
         self.callback()
     end
 end

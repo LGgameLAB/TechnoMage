@@ -1,8 +1,8 @@
 Vector = require('libs/util/vector')
 
-class = require('class')
+sprite = require('sprite')
 
-Asteroid = class()
+Asteroid = sprite:extend()
 Asteroid:set(
     {
         image = love.graphics.newImage('assets/objects/big rock.png'),
@@ -22,6 +22,7 @@ Asteroid:set(
 )
 
 function Asteroid:init(owner, physicsworld, x, y)
+    self.super().load(self)
     self.body = love.physics.newBody(physicsworld, x, y, "dynamic")
     self.body:setMass(1000)
 
@@ -34,6 +35,7 @@ function Asteroid:init(owner, physicsworld, x, y)
     end 
     self.shape = love.physics.newPolygonShape(verts)
     self.fixture = love.physics.newFixture(self.body, self.shape, 1)
+    self.fixture:setGroupIndex(300)
 
     self.body:setAngle(math.random()*6.28)
     self.vel = Vector.randomDirection(self.speed-10, self.speed+10)

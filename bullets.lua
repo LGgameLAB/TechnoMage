@@ -32,7 +32,7 @@ function Bullet:update(dt)
     if self.body:isActive() then
         for _, c in pairs(self.body:getContacts()) do
             -- local cpos = {c:getPositions( )}
-            -- print(cpos[1])
+            -- cpos[1])
             if c:isTouching( ) then
                 local one, two = c:getFixtures()
                 if one:getGroupIndex( ) == 300 then

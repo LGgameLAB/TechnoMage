@@ -184,8 +184,6 @@ return {
 					addObjectToWorld(o.shape, triangle, userdata, tile or object)
 				end
 			elseif o.shape == "polyline" then
-				
-				print('poly')
 				local vertices = getPolygonVertices(o)
 				addObjectToWorld(o.shape, vertices, userdata, tile or object)
 			end

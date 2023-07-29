@@ -1,3 +1,7 @@
+lg = love.graphics
+lp = love.physics
+la = love.audio
+
 game = require('game')()
 require('settings')
 
