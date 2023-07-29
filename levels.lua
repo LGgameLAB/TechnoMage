@@ -114,6 +114,7 @@ function AsteroidLevel:init(filepath)
 	self.chunkWidth = 1000
 	self.chunkHeight = 1000
 	self.asteroidsPerChunk = 11
+	self.loadDist = 1500
 	self.filepath = filepath
 end
 
@@ -146,29 +147,21 @@ end
 function AsteroidLevel:update(dt)
 	self.map:update(dt)
 
-	local p = self.owner.player
-	local pVel = {p.body:getLinearVelocity()}
-	local pPos = p.pos
-	local sw, sh = love.window.getMode()
-	local chunky = self.chunk.rect:move(self.owner.cam:cameraCoords(self.chunk.rect:getval('topleft')))
-	
-
-
-	if (pPos.x - self.chunk.x < pVel[1] * -2) then
-		self:loadChunk(self.chunk.x - self.chunkWidth, self.chunk.y)
-	elseif (pPos.x - self.chunk.x > self.chunkWidth - pVel[1])then
-		self:loadChunk(self.chunk.x + self.chunkWidth, self.chunk.y)
-	end
-
-	if (pPos.y - self.chunk.y < pVel[2] * -2) then
-		self:loadChunk(self.chunk.x, self.chunk.y - self.chunkHeight)
-	elseif (pPos.y - self.chunk.y > self.chunkHeight - pVel[2] * 2) then
-		self:loadChunk(self.chunk.x, self.chunk.y + self.chunkHeight)
+	local p = Vector(self.owner.player.body:getX(), self.owner.player.body:getY())
+	local cx, cy = unpack(self.chunk.rect:getval('center'))
+	for x=-1, 1 do
+		for y=-1, 1 do
+			-- if not (x==0 and y==0) then
+			local newPos = Vector(cx + x*self.chunkWidth, cy + y*self.chunkHeight)
+			local d = p:dist(newPos)
+			if d < self.loadDist then
+				self:loadChunk(self.chunk.x + x*self.chunkWidth, self.chunk.y + y*self.chunkHeight)
+			end
+			-- end
+		end
 	end
 
 	self:getCurrentChunk()
-	print(#self.chunks)
-
 
 end
 
@@ -177,6 +170,7 @@ function AsteroidLevel:loadChunk(x, y)
 		if c.x == x and c.y == y then
 			return nil
 		end
+		-- print("already loaded dum dum")
 	end
 
 	table.insert(self.chunks, Chunk(self, x, y))
@@ -211,7 +205,15 @@ function AsteroidLevel:draw()
 	if DEBUG then
 		self.map:box2d_draw()
 		for _, c in pairs(self.chunks) do
-			love.graphics.rectangle('line', c.x, c.y, self.chunkWidth, self.chunkHeight)
+			if (c.x == self.chunk.x) and (c.y == self.chunk.y) then
+				love.graphics.setColor(0.8, 0.1, 0.1)
+				love.graphics.rectangle('line', c.x, c.y, self.chunkWidth, self.chunkHeight)
+				love.graphics.setColor(1, 1, 1)
+			else
+				love.graphics.setColor(1, 1, 1, 0.2)
+				love.graphics.rectangle('line', c.x, c.y, self.chunkWidth, self.chunkHeight)
+				love.graphics.setColor(1, 1, 1, 1)
+			end
 		end
 	end
 end
