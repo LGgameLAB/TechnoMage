@@ -40,7 +40,28 @@ function Player:load(owner, world)
 
     self.body:setAngle(0)
 
-    -- self.body:setAngularVelocity( 0.9 )
+    self.parts = love.graphics.newParticleSystem(love.graphics.newImage('assets/player/flame.png'), 100)
+    self.parts:setParticleLifetime(0.4)
+    self.parts:setEmissionRate(8)
+    self.parts:setSizeVariation(0)
+    self.parts:setLinearAcceleration(-80, -1, -80, 1)
+    self.parts:setSizes(1, 0.2)
+
+    
+    function love.keypressed(k)
+        if k == 'return' then
+            print('yay')
+            owner.dialogue:pop()
+          elseif k == 'c' then
+            owner.dialogue:complete()
+          elseif k == 'f' then
+            owner.dialogue:faster()
+        --   elseif k == 'down' then
+        --     pcall(owner.dialogue:changeOption, 1) -- next one
+        --   elseif k == 'up' then
+        --     owner.dialogue:changeOption(-1) -- previous one
+          end
+    end
 end
 
 function Player:draw()
@@ -59,17 +80,20 @@ function Player:draw()
         love.graphics.points( self.body:getPosition() )
     end
     -- lg.setShader(nil)
+    love.graphics.draw(self.parts, self.pos.x, self.pos.y, ang, 1, scaley, 0, -16+oy)
 end
 
 function Player:update(dt)
     self:move(dt)
     self:shoot()
     self.pos = Vec(self.body:getPosition())-- + Vec(self.w*0.25, self.h*0.5)
-    
+
     self.animations:update(dt)
+    self.parts:update(dt)
 end
 
 function Player:move(dt)
+    local moving = false
     local x, y = self.body:getPosition()
     if love.keyboard.isDown( binds.rotR ) then
         -- self.body:applyAngularImpulse(self.turnSpeed*dt)
@@ -83,12 +107,20 @@ function Player:move(dt)
         impulse = Vec(self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
         self.body:applyForce(impulse.x, impulse.y)
+        moving = true
     end
     if love.keyboard.isDown( binds.reverseRocket ) then
         impulse = Vec(-self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
         self.body:applyForce(impulse.x, impulse.y)
+        moving = true
     end
+    if moving then--Vector(self.body:getLinearVelocity()):len() < 5 then
+        self.parts:start()
+    else
+        self.parts:stop()
+    end
+    self.parts:setParticleLifetime(Vector(self.body:getLinearVelocity()):len()/1000 + 0.4)
 end
 
 function Player:shoot()

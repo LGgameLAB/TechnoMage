@@ -95,10 +95,8 @@ function Chunk:init(owner, x, y)
 	self.rect = Rect(x, y, owner.chunkWidth, owner.chunkHeight)
 	
 	for a=1,owner.asteroidsPerChunk do
-		local a = Asteroid(self, owner.owner.physics, math.random()*self.rect.w + x, math.random()*self.rect.h + y)
-		owner.spriteLayer:add(a)
+		local a = Asteroid(self, owner.owner.physics, math.random()*self.rect.w + x, math.random()*self.rect.h + y, {owner.spriteLayer, owner.map.box2d_collision})
 		table.insert(self.asteroids, a)
-		table.insert(self.owner.map.box2d_collision, a)
 
 	end
 end
@@ -117,7 +115,7 @@ function AsteroidLevel:init(filepath)
 	self.chunk = nil
 	self.chunkWidth = 1000
 	self.chunkHeight = 1000
-	self.asteroidsPerChunk = 11
+	self.asteroidsPerChunk = 12
 	self.loadDist = 1500
 	self.unloadDist = 2500
 	self.filepath = filepath
@@ -142,14 +140,12 @@ function AsteroidLevel:load(owner, world)
 
 	game.shaders.passes[3].on = false
 
-	-- self.constructors = self.map.layers["constructors"]
-	-- for k, v in ipairs(self.constructors.objects) do
-	-- 	if v.name == "Player" then
-	-- 		owner.player:setPos(v.x, v.y)
-	-- 	else
-	-- 		self.spriteLayer:add(sprites[v.name])
-	-- 	end
-	-- end
+	owner.dialogue:show({
+		text="Welcome to Cycadia asteroid belt!",
+		background = {
+			color = {0,0,0,0.8},
+		}
+	})
 
 end
 
@@ -224,7 +220,11 @@ function AsteroidLevel:draw()
 		if layer.visible and layer.opacity > 0 and layer.type ~= 'objectlayer' then
 			d = layer.properties.depth or nil
 			self.owner.cam:setDepth(d)
-			self.map:drawLayer(layer)
+			if layer.type == 'imagelayer' then
+				self.map:drawImageLayer(layer, self.owner.player.body:getX(), self.owner.player.body:getY())
+			else
+				self.map:drawLayer(layer, 0, 0)
+			end
 			self.owner.cam:reverseDepth(d)
 		end
 	end

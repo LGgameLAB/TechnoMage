@@ -13,7 +13,12 @@ function Sprite.load(self, layers)
             table.insert(self.layers, l)
             l:add(self)
         else
-            v:add(self)
+            if v.add then
+                v:add(self)
+            else
+                table.insert(v, self)
+            end
+            table.insert(self.layers, v)
         end
     end
 
@@ -26,12 +31,22 @@ function Sprite.update(self, dt)
 end
 
 function Sprite.kill(self)
+    
     for _, l in ipairs(self.layers or {}) do
-        l:remove(self)
+        if l.remove then
+            l:remove(self)
+        else
+            for i, s in pairs(l) do
+                if s == self then
+                    table.remove(l, i)
+                end
+            end
+        end
     end
-    -- if self.body then
-    --     self.body:release()
-    -- end
+
+    if self.body then
+        self.body:setActive(false)
+    end
 end
 
 return Sprite

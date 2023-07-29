@@ -1076,7 +1076,7 @@ end
 
 --- Default draw function for Image Layers
 -- @param layer The Image Layer to draw
-function Map:drawImageLayer(layer)
+function Map:drawImageLayer(layer, px, py)
 	if type(layer) == "string" or type(layer) == "number" then
 		layer = self.layers[layer]
 	end
@@ -1086,17 +1086,19 @@ function Map:drawImageLayer(layer)
 	-- local x, y = game.state.cam.cameraCoords(layer.x, layer.y)
 	-- local camRect = utils.rect(0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 	local w, h = layer.image:getDimensions()
+	-- local px, py = px or 0, py or 0
+	local x, y = math.floor(px/w)*w+layer.x, math.floor(py/h)*h+layer.y
 
 	if layer.image ~= "" then
-		lg.draw(layer.image, layer.x, layer.y)
-		lg.draw(layer.image, layer.x-w, layer.y+h)
-		lg.draw(layer.image, layer.x-w, layer.y-h)
-		lg.draw(layer.image, layer.x-w, layer.y)
-		lg.draw(layer.image, layer.x+w, layer.y)
-		lg.draw(layer.image, layer.x+w, layer.y-h)
-		lg.draw(layer.image, layer.x+w, layer.y+h)
-		lg.draw(layer.image, layer.x, layer.y+h)
-		lg.draw(layer.image, layer.x, layer.y-h)
+		lg.draw(layer.image, x, y)
+		lg.draw(layer.image, x-w, y+h)
+		lg.draw(layer.image, x-w, y-h)
+		lg.draw(layer.image, x-w, y)
+		lg.draw(layer.image, x+w, y)
+		lg.draw(layer.image, x+w, y-h)
+		lg.draw(layer.image, x+w, y+h)
+		lg.draw(layer.image, x, y+h)
+		lg.draw(layer.image, x, y-h)
 	end
 end
 

@@ -1,5 +1,6 @@
 util = require('util')
 Vec = require('libs/util/vector')
+fx = require('fx')
 
 Enemy = require('sprite'):extend()
 Enemy:set({
@@ -23,13 +24,16 @@ end
 Goober = Enemy:extend()
 Goober:set({
     image = love.graphics.newImage('assets/enemies/ugly.png'),
-    speed = 400
+    speed = 40
 })
 
 function Goober:load()
     self.body = lp.newBody(game.state.physics, self.tiledObj.x, self.tiledObj.y, "dynamic")
     self.shape = lp.newCircleShape(self.image:getWidth()/2)
     self.fixture = lp.newFixture(self.body, self.shape, 1)
+
+    self.fx = fx(10, 10)
+    self.fx:add({})
 end
 
 function Goober:update(dt)
@@ -37,12 +41,17 @@ function Goober:update(dt)
     local target = target:normalized()*self.speed
     self.body:setLinearVelocity(target:unpack())
 
+    self.fx:update(dt)
+
 end
 
 function Goober:draw()
     local offset = self.shape:getRadius()+(0.171572875254)
-    lg.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle(), nil, nil, offset, offset)
-    love.graphics.circle('line', self.body:getX(), self.body:getY(),self.shape:getRadius())
-    -- print("GOBBER")
+    self.fx:draw(function()
+        lg.draw(self.image, self.body:getX(), self.body:getY(), self.body:getAngle(), nil, nil, offset, offset)
+    end)
+    if DEBUG then
+        love.graphics.circle('line', self.body:getX(), self.body:getY(),self.shape:getRadius())
+    end
 end
 return {Enemy=Enemy, Goober=Goober}

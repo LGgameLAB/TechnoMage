@@ -273,6 +273,16 @@ return {
 		end
 
 		map.box2d_collision = collision
+		function map.box2d_collision.add(l, s)
+			table.insert(l, s)
+		end
+		function map.box2d_collision.remove(l, s)
+			for _, spr in pairs(l) do
+				if spr == s then
+					table.remove(l, _)
+				end
+			end
+		end
 	end,
 
 	--- Remove Box2D fixtures and shapes from world.

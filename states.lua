@@ -88,7 +88,10 @@ function main:load(owner)
     
     local camera = require('libs/util/camera')
     self.cam = camera(0,0, 1)
-    self.cam.smoother = camera.smooth.damped(2)--camera.smooth.linear(100)
+    self.cam.smoother = camera.smooth.damped(20)--camera.smooth.linear(100)
+    self.dialogue = require('libs/dialove').init({
+        font = love.graphics.newFont('libs/dialove/fonts/proggy-tiny/ProggyTiny.ttf', 32),
+    })
     
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
@@ -96,6 +99,7 @@ function main:load(owner)
     self.player:load(self, self.physics)
     self.level = require('levels').Level0
     self.level:load(self, self.physics)
+    
     
 
     -- self.numLights = 1
@@ -144,6 +148,7 @@ function main:update(dt)
     self:runEvents()
 
     self.physics:update(dt)
+    self.dialogue:update(dt)
     self.level:update(dt)
     -- self.cam:lookAt(self.player:getCenter():unpack())
     self.cam:lockPosition(self.player:getCenter():unpack())
@@ -177,6 +182,7 @@ function main:draw()
     self.player:draw()
     self:drawLights()
     self.cam:detach()
+    self.dialogue:draw()
 
 
 
