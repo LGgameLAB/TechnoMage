@@ -128,6 +128,7 @@ function AsteroidLevel:load(owner, world)
 	self.map:addSpriteLayer("Sprite Layer", 3) -- Name and stack index
 	self.spriteLayer = self.map.layers["Sprite Layer"]
 	self.spriteLayer:add(owner.player)
+	owner.hudlayer:add(require('hud').GuideArrow(owner.player, {9, 9}))
 	math.randomseed(os.time())
 	self:loadChunk(0, 0)
 	self.owner.player:setPos(500, 500)

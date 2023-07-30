@@ -12,7 +12,7 @@ function Bullet:init(owner, x, y, ang)
     self.owner = owner 
     self.super().load(self, {'Sprite Layer'})
     self.body = love.physics.newBody(game.state.physics, x, y, 'dynamic')
-    self.body:setMass(4)
+    self.body:setMass(4000)
     self.body:setBullet(true)
     self.shape = love.physics.newCircleShape(2)
     self.fixture = love.physics.newFixture(self.body, self.shape)

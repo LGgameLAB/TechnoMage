@@ -20,7 +20,7 @@ local function CreateShaderPass()
 
 		if not c or c.canvas:getWidth() ~= po2xr or c.canvas:getHeight() ~= po2yr then
 			c = {}
-			local status, canvas = pcall(love.graphics.newCanvas, po2xr, po2yr, {'stencil'})
+			local status, canvas = pcall(love.graphics.newCanvas, po2xr, po2yr)
 			if status then
 				canvas:setFilter("nearest", "nearest")
 				c.canvas = canvas

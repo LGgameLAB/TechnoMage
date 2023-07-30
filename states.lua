@@ -92,13 +92,16 @@ function main:load(owner)
     self.dialogue = require('libs/dialove').init({
         font = love.graphics.newFont('libs/dialove/fonts/proggy-tiny/ProggyTiny.ttf', 32),
     })
-    
+    self.dCanv = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight() )
+    self.hudlayer = require('hud').Hudcontrol()
+
     -- Prepare physics world with horizontal and vertical gravity
     love.physics.setMeter(32) --sets the meter size in pixels
 	self.physics = love.physics.newWorld(0, 0, true)
     self.player:load(self, self.physics)
     self.level = require('levels').Level0
     self.level:load(self, self.physics)
+    
     
     
 
@@ -150,6 +153,7 @@ function main:update(dt)
     self.physics:update(dt)
     self.dialogue:update(dt)
     self.level:update(dt)
+    self.hudlayer:update(dt)
     -- self.cam:lookAt(self.player:getCenter():unpack())
     self.cam:lockPosition(self.player:getCenter():unpack())
     if love.window.getFullscreen() then
@@ -182,9 +186,13 @@ function main:draw()
     self.player:draw()
     self:drawLights()
     self.cam:detach()
+    self.hudlayer:draw()
+    local c = love.graphics.getCanvas()
+    love.graphics.setCanvas( {self.dCanv, stencil=true})
+    love.graphics.clear()
     self.dialogue:draw()
-
-
+    love.graphics.setCanvas(c)
+    love.graphics.draw(self.dCanv)
 
 end
 

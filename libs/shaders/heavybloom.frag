@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 
 #define glarebasesize 0.42
-#define power 0.5 // 0.50 is good
+#define power 0.7 // 0.50 is good
 
 extern vec2 textureSize;
 
@@ -50,7 +50,7 @@ vec4 effect(vec4 vcolor, Image texture, vec2 texture_coords, vec2 pixel_coords)
 		texcolor = sum*sum*sum*0.001+bum*bum*bum*0.0080 + Texel(texture, texture_coords);
 	}
 	
-	texcolor.a = 1.0;
+	// texcolor.a = 1.0;
 	
 	return texcolor;
 }

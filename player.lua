@@ -40,12 +40,15 @@ function Player:load(owner, world)
 
     self.body:setAngle(0)
 
+    self.partSpeed = 300
     self.parts = love.graphics.newParticleSystem(love.graphics.newImage('assets/player/flame.png'), 100)
-    self.parts:setParticleLifetime(0.4)
-    self.parts:setEmissionRate(8)
+    self.parts:setParticleLifetime(0)
+    self.parts:setEmissionRate(40)
     self.parts:setSizeVariation(0)
-    self.parts:setLinearAcceleration(-80, -1, -80, 1)
     self.parts:setSizes(1, 0.2)
+    self.parts:setColors(1,1,1,1,0,0,0,0)
+
+    self.hvyBloom = love.graphics.newShader('libs/shaders/heavybloom.frag')
 
     
     function love.keypressed(k)
@@ -80,7 +83,10 @@ function Player:draw()
         love.graphics.points( self.body:getPosition() )
     end
     -- lg.setShader(nil)
-    love.graphics.draw(self.parts, self.pos.x, self.pos.y, ang, 1, scaley, 0, -16+oy)
+    local diff = self:getCenter() + Vector(-self.w*0.5, 0):rotated(ang)
+    lg.setShader(self.hvyBloom)
+    love.graphics.draw(self.parts, diff.x, diff.y, 0, 1, 1, 0, 0)
+    lg.setShader()
 end
 
 function Player:update(dt)
@@ -89,6 +95,8 @@ function Player:update(dt)
     self.pos = Vec(self.body:getPosition())-- + Vec(self.w*0.25, self.h*0.5)
 
     self.animations:update(dt)
+    self.parts:setLinearAcceleration(Vector(-self.partSpeed, 2):rotated(self.body:getAngle()):unpack())
+    self.parts:setRotation(self.body:getAngle())
     self.parts:update(dt)
 end
 
@@ -113,9 +121,9 @@ function Player:move(dt)
         impulse = Vec(-self.speed, 0)
         impulse = impulse:rotated(self.body:getAngle())
         self.body:applyForce(impulse.x, impulse.y)
-        moving = true
+        -- moving = true
     end
-    if moving then--Vector(self.body:getLinearVelocity()):len() < 5 then
+    if moving and not ( Vector(self.body:getLinearVelocity()):len() < 20) then
         self.parts:start()
     else
         self.parts:stop()
@@ -138,7 +146,7 @@ function Player:shoot()
 end
 
 function Player:getCenter()
-    diff = Vec(self.w*0.5, self.h*0.5)
+    local diff = Vec(self.w*0.5, self.h*0.5)
     diff:rotateInplace(self.body:getAngle())
     return self.pos + diff
 end
