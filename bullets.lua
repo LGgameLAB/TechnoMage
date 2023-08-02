@@ -17,6 +17,7 @@ function Bullet:init(owner, x, y, ang)
     self.shape = love.physics.newCircleShape(2)
     self.fixture = love.physics.newFixture(self.body, self.shape)
     -- self.fixture:setMask(1)
+    self.fixture:setGroupIndex(298)
     self.angle = ang
     local dir = Vec(self.vel, 0):rotated(ang)
     self.body:applyForce(dir.x, dir.y)
@@ -39,11 +40,14 @@ function Bullet:update(dt)
                     -- self.body:setPosition(x, y)
                     -- self.body:setActive( false )
                     self.super().kill(self)
-                    self.super().kill(self)
                     -- self.body:setActive(false)
                     -- self.fixture:destroy()
                     break
+                elseif one:getGroupIndex( ) == 299 then
+                    self.super().kill(self)
+                    break
                 end
+
             end
         end
     end

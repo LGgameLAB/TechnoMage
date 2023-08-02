@@ -6,6 +6,11 @@ function Sprite:init()
 end
 
 function Sprite.load(self, layers)
+    self:addLayers(layers)
+
+end
+
+function Sprite:addLayers(layers)
     self.layers = {}
     for k, v in ipairs(layers or {}) do
         if type(v) == 'string' then
@@ -21,7 +26,6 @@ function Sprite.load(self, layers)
             table.insert(self.layers, v)
         end
     end
-
 end
 
 function Sprite.draw(self)
@@ -31,6 +35,7 @@ function Sprite.update(self, dt)
 end
 
 function Sprite.kill(self)
+    -- print('goober')
     
     for _, l in ipairs(self.layers or {}) do
         if l.remove then

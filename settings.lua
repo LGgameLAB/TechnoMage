@@ -4,7 +4,7 @@ function dump(tbl)
     end
 end
 CROSSHATCH = false
-DEBUG = false--true
+DEBUG = true
 
 binds = {
     rocket = 'w',

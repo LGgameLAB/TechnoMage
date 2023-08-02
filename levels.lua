@@ -115,7 +115,7 @@ function AsteroidLevel:init(filepath)
 	self.chunk = nil
 	self.chunkWidth = 1000
 	self.chunkHeight = 1000
-	self.asteroidsPerChunk = 12
+	self.asteroidsPerChunk = 10
 	self.loadDist = 1500
 	self.unloadDist = 2500
 	self.filepath = filepath
@@ -128,7 +128,9 @@ function AsteroidLevel:load(owner, world)
 	self.map:addSpriteLayer("Sprite Layer", 3) -- Name and stack index
 	self.spriteLayer = self.map.layers["Sprite Layer"]
 	self.spriteLayer:add(owner.player)
-	owner.hudlayer:add(require('hud').GuideArrow(owner.player, {9, 9}))
+	local box = require('sprites').Box(self, {x=1203, y=-9000})
+	self.spriteLayer:add(box)
+	owner.hudlayer:add(require('hud').GuideArrow(owner.player, box))
 	math.randomseed(os.time())
 	self:loadChunk(0, 0)
 	self.owner.player:setPos(500, 500)
@@ -142,7 +144,7 @@ function AsteroidLevel:load(owner, world)
 	game.shaders.passes[3].on = false
 
 	owner.dialogue:show({
-		text="Welcome to Cycadia asteroid belt!",
+		text="Welcome to Cycadia asteroid belt!\n\n Press Enter to Continue",
 		background = {
 			color = {0,0,0,0.8},
 		}

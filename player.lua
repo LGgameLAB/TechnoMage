@@ -145,6 +145,10 @@ function Player:shoot()
     end
 end
 
+function Player:damage()
+    return 5
+end 
+
 function Player:getCenter()
     local diff = Vec(self.w*0.5, self.h*0.5)
     diff:rotateInplace(self.body:getAngle())
